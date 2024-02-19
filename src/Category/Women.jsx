@@ -3,6 +3,8 @@ import { ShopContext } from "../Context/ShopContext";
 import { useContext } from "react";
 import ItemCategory from "../Components/Item/ItemCategory";
 import Sidebar from "../Components/Sidebar/Sidebar";
+import SelectOption from "../Components/SelectOption/SelectOption";
+
 export default function Women() {
   const { all_product } = useContext(ShopContext);
   const totalProduct = all_product.reduce((acc, product) => {
@@ -24,6 +26,7 @@ export default function Women() {
             <span>Showing </span> 1 -{totalProduct} of the products woman
           </h5>
           <h2>Woman Clothing Products</h2>
+          <SelectOption />;
           <div className="cloth-item-cetegory">
             {all_product.map((item, index) => {
               if (item.category === "women") {
