@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import Relate from "../Relate/Relate";
 import { CreateStars } from "../Rating/Rating";
-
 export default function DetailProduct() {
   const { all_product, addToCart } = useContext(ShopContext);
   const { id } = useParams();
@@ -66,6 +65,7 @@ export default function DetailProduct() {
           </div>
         </div>
       </div>
+
       <Relate value={data.category} />
     </>
   );

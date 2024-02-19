@@ -17,7 +17,7 @@ import Allproduct from "./Pages/Allproduct";
 import NewCollection from "./Pages/NewCollection";
 import BestSeller from "./Pages/BestSeller";
 import Register from "./Pages/Reegister";
-import Couple from "./Category/Couple";
+import Family from "./Category/Family";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -59,7 +59,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/family",
-        Component: Couple,
+        Component: Family,
       },
       {
         path: "",
@@ -157,7 +157,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/family",
-        Component: Couple,
+        Component: Family,
       },
       {
         path: "",

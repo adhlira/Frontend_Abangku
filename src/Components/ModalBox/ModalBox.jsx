@@ -1,28 +1,32 @@
 import { useState } from "react";
+import { MDBBtn, MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter } from "mdb-react-ui-kit";
 
- export default function SizeAlertModal() {
-  const [showModal, setShowModal] = useState(false);
+export default function ModalBox() {
+  const [staticModal, setStaticModal] = useState(false);
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
+  const toggleOpen = () => setStaticModal(!staticModal);
 
-   return (
-     <div>
-       <button className="toggle-button" onClick={toggleModal}>
-         Toggle
-       </button>
-       <div className={`modal ${showModal ? "" : "off"}`}>
-         <h2>Modal Window</h2>
-         <div className="content">
-           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis deserunt corrupti, ut fugit magni qui quasi nisi amet repellendus non fuga omnis a sed impedit explicabo accusantium nihil doloremque consequuntur.
-         </div>
-         <div className="actions">
-           <button className="toggle-button" onClick={toggleModal}>
-             OK
-           </button>
-         </div>
-       </div>
-     </div>
-   );
- }
+  return (
+    <>
+      <MDBBtn onClick={toggleOpen}>Launch static backdrop modal</MDBBtn>
+
+      <MDBModal staticBackdrop tabIndex="-1" open={staticModal} setOpen={setStaticModal}>
+        <MDBModalDialog>
+          <MDBModalContent>
+            <MDBModalHeader>
+              <MDBModalTitle>Modal title</MDBModalTitle>
+              <MDBBtn className="btn-close" color="none" onClick={toggleOpen}></MDBBtn>
+            </MDBModalHeader>
+            <MDBModalBody>...</MDBModalBody>
+            <MDBModalFooter>
+              <MDBBtn color="secondary" onClick={toggleOpen}>
+                Close
+              </MDBBtn>
+              <MDBBtn>Understood</MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+    </>
+  );
+}

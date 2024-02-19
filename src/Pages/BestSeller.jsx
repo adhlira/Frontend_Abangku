@@ -18,7 +18,7 @@ export default function BestSeller() {
         <Sidebar />
         <div className="cloth-category">
           <h5 className="showing">
-            <span>Showing </span> 1 -{totalProduct} of the products
+            <span>Showing </span> 1 -{totalProduct} of the products best seller
           </h5>
           <h2>Best Seller Clothing Products</h2>
           <div className="cloth-item-cetegory">

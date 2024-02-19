@@ -47,7 +47,7 @@ export default function Sidebar() {
             </li>
             <li onClick={handleClick}>
               <NavLink to="/family" className="nav-link">
-                <h4>Couple Family</h4>
+                <h4>Family</h4>
               </NavLink>
             </li>
           </ul>

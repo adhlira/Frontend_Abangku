@@ -96,6 +96,7 @@ nav {
   text-decoration: none;
   font-size: 0.9rem;
 }
+
 .nav-login-cart button:active {
   background-color: #f3f3f3;
 }
@@ -134,8 +135,13 @@ nav {
   color: #171717;
   font-size: 15px;
 }
-#form-login b {
+#form-login span {
   color: #a62c27;
+  font-size: 1rem;
+  font-weight: 800;
+}
+#form-login span:hover {
+  color: #ea1d1d;
 }
 .nav-link h5 {
   font-weight: 500;
@@ -158,7 +164,8 @@ nav {
   width: 80%;
   height: 30px;
   padding: 10px;
-  border: 1px rgb(91, 88, 88);
+  border: 1px solid #a62c27;
+  outline: none;
   border-radius: 5px;
 }
 .btn-Search {
@@ -421,6 +428,9 @@ h5.showing {
   cursor: pointer;
   z-index: 999;
 }
+.arrowUp svg:hover {
+  color: #ea1d1d;
+}
 
 /* Footer Close */
 /* Banner */
@@ -526,7 +536,8 @@ h5.showing {
   width: 60px;
   height: 35px;
   margin-right: 10px;
-  background-color: #626262;
+  background-color: #a62c27;
+  border: 1px solid #a62c27;
   border-radius: 5px;
   color: white;
   cursor: pointer;
@@ -534,16 +545,16 @@ h5.showing {
 .btn-addCart button {
   width: 120px;
   height: 40px;
-  background-color: #515151;
+  background-color: #a62c27;
   color: white;
-  border: 1px solid #515151;
+  border: 1px solid #a62c27;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.btn-addCart button:active,
-.btn-size button:active {
-  background-color: #626262;
+.btn-addCart button:hover,
+.btn-size button:hover {
+  background-color: #ea1d1d;
 }
 .path-product {
   width: 1000px;
@@ -681,6 +692,9 @@ hr {
   cursor: pointer;
   border-radius: 5px;
 }
+.cartItems-total button:hover {
+  background-color: #ea1d1d;
+}
 .cartItems-promo-code {
   flex: 1;
   font-size: 16px;
@@ -716,6 +730,9 @@ hr {
   cursor: pointer;
   border-radius: 5px;
   border: 1px solid #a62c27;
+}
+.cartItems-promobox button:hover {
+  background-color: #ea1d1d;
 }
 /* CLOSE CARTITEMS */
 /* VIRTUAL-ACCOUNT */
@@ -767,13 +784,13 @@ hr {
 .side-right-page button {
   padding: 10px;
   border-radius: 5px;
-  background-color: #515151;
+  background-color: #a62c27;
   color: white;
   margin-top: 40px;
   cursor: pointer;
 }
 .side-right-page button:hover {
-  background-color: #8c8c8c;
+  background-color: #ea1d1d;
 }
 .About-page {
   max-width: 1000px;
@@ -866,5 +883,21 @@ hr {
   color: white;
   border-radius: 10px;
 }
-
 /* END MAIN */
+/* SELECT OPTION */
+.select-option {
+ width: 200px;
+  height: 30px;
+  position: absolute;
+  top: 400px;
+  right: 120px;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.option-menu {
+  padding: 5px; /* Sesuaikan jarak antara teks dan tepi opsi */
+}
+
+/* END SELECT OPTION */

@@ -24,7 +24,7 @@ export default function Kids() {
           <h5 className="showing">
             <span>Showing </span> 1 -{totalProduct} of the products kids
           </h5>
-          <h2>Children&apos;s Clothing Products</h2>
+          <h2>Kid&apos;s Clothing Products</h2>
           <div className="cloth-item-cetegory">
             {all_product.map((item, index) => {
               if (item.category === "kid") {

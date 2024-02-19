@@ -16,7 +16,7 @@ export default function LoginSingUp() {
             <p>
               Dont have an account?
               <Link to="/register" className="nav-link">
-                <b> Sign Up</b>
+                <span> Sign Up</span>
               </Link>
             </p>
 
