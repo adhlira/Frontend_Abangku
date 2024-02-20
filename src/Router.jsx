@@ -18,6 +18,15 @@ import NewCollection from "./Pages/NewCollection";
 import BestSeller from "./Pages/BestSeller";
 import Register from "./Pages/Reegister";
 import Family from "./Category/Family";
+import AdminLayout from "./Components/admin/AdminLayout";
+import Dashboard from "./Components/admin/pages/Dashboard";
+import NewProduct from "./Components/admin/pages/NewProduct";
+import Insights from "./Components/admin/pages/Insights";
+import AllUsers from "./Components/admin/pages/AllUsers";
+import AllCategories from "./Components/admin/pages/AllCategories";
+import Collection from "./Components/admin/pages/Collection";
+import AllOrder from "./Components/admin/pages/AllOrders";
+import AllProducts from "./Components/admin/pages/AllProducts";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -206,6 +215,22 @@ const Router = createBrowserRouter([
     children: [
       { path: "*", Component: PageNotFound },
       { path: "/", Component: Product },
+    ],
+  },
+  {
+    path: "/admin",
+    Component: AdminLayout,
+    children: [
+      { path: "dashboard", Component: Dashboard },
+      { path: "Insights", Component: Insights },
+      { path: "products", Component: AllProducts },
+      { path: "new product", Component: NewProduct },
+      { path: "new coupon", Component: NewProduct },
+      { path: "customers", Component: AllUsers },
+      { path: "categories", Component: AllCategories },
+      { path: "attributes", Component: AllCategories },
+      { path: "collection", Component: Collection },
+      { path: "order", Component: AllOrder },
     ],
   },
 ]);
