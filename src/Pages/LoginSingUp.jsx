@@ -1,6 +1,36 @@
 import { Link } from "react-router-dom";
 import PictLogin from "../Components/Assets/pictLogin.jpg";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function LoginSingUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const Login = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/login", {
+        email: email,
+        password: password,
+      });
+      navigate("/");
+      // Tangkap message dan token dari tanggapan
+      const { message, token } = response.data;
+
+      // Cetak message dan token ke konsol
+      console.log("Message:", message);
+      console.log("Token:", token);
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message);
+        console.log(error.response);
+      }
+    }
+  };
+
   return (
     <>
       <div className="containe-form">
@@ -9,10 +39,11 @@ export default function LoginSingUp() {
         </div>
         <div className="login-container">
           <h3>Log in</h3>
-          <form action="" id="form-login">
-            <input type="text" placeholder="Username" id="username" name="username" />
-            <input type="password" placeholder="Password" id="password" name="password" />
-            <button>LOG IN</button>
+          <h5>{error}</h5>
+          <form id="form-login" onSubmit={Login}>
+            <input type="email" placeholder="Email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder="Password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button type="submit">LOG IN</button>
             <p>
               Dont have an account?
               <Link to="/register" className="nav-link">

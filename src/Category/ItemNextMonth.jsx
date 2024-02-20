@@ -1,7 +1,6 @@
 import NewData from '../Components/Assets/itemNxtMonth/DataNew.js';
 import ItemNext from '../Components/Item/ItemNext';
 export default function ItemNextMonth() {
-  console.log(NewData);
   return (
     <>
       <div className="cloth-container">

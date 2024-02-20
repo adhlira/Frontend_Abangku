@@ -4,10 +4,6 @@ import { useSearch } from "../../Context/SearchContext";
 import ItemCategory from "../Item/ItemCategory";
 import Sidebar from "../Sidebar/Sidebar";
 import UrbanBanner from "../Assets/banner_urban.jpg";
-
-
-
-
 export default function Search() {
   const { searchTerm } = useSearch();
   const { all_product } = useContext(ShopContext);
