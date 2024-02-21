@@ -44,25 +44,12 @@ const AuthProvider = ({ children }) => {
       });
       window.location.href = "/login";
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.errors) {
-        const { errors } = error.response.data;
-
-        // Memeriksa setiap field untuk pesan error
-        if (errors.allFields) {
-          setError(errors.allFields.message);
-        } else if (errors.email) {
-          setError(errors.email.message);
-        } else if (errors.password) {
-          setError(errors.password.message);
-        } else if (errors.phone) {
-          setError(errors.phone.message);
-        }
-      } else {
-        setError("An error occurred while processing your request.");
+      if (error.response) {
+        console.log(error.response);
+        setError(error.response.data.errors);
       }
     }
   };
-
 
   const values = {
     Login,

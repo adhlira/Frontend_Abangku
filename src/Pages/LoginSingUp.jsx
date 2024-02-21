@@ -25,7 +25,7 @@ export default function LoginSingUp() {
         <div className="login-container">
           <h3>Log in</h3>
           <form id="form-login" onSubmit={handleLogin} className="form">
-            <h5>{error === "Email not found" ? error : ""}</h5>
+            <h5>{error === "Email not found" || error === "Invalid email" || error === "All fields are required" ? error : ""}</h5>
             <input type="email" placeholder="Email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <h5>{error === "Invalid password" ? error : ""}</h5>
             <input type="password" placeholder="Password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
