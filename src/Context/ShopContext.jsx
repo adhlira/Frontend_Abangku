@@ -17,6 +17,7 @@ const getDefaultCart = () => {
 const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
   const [selectedItems, setSelectedItems] = useState([]);
+  
   console.log(selectedItems);
   const addToCart = (itemId, size) => {
     setCartItems((prev) => {

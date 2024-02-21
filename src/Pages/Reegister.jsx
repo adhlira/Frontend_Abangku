@@ -1,8 +1,10 @@
 import PictLogin from "../Components/Assets/pictLogin.jpg";
 import { useState } from "react";
+import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 export default function Register() {
+  const { Register } = useAuth();
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -11,23 +13,17 @@ export default function Register() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const Register = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-     await axios.post("http://localhost:5000/register", {
-        fullname: fullname,
-        username: username,
-        password: password,
-        email: email,
-        phone: phonenumber,
-      });
+      await Register(fullname, username, password, email, phonenumber);
       navigate("/login");
     } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message);
-      }
+      console.error("Failed to Register:", error.message);
+      setError(error.message);
     }
   };
+
   return (
     <>
       <div className="containe-form">
@@ -37,7 +33,7 @@ export default function Register() {
         <div className="login-container">
           <h3>Register</h3>
           <h5>{error}</h5>
-          <form id="register" onSubmit={Register}>
+          <form id="register" onSubmit={handleRegister}>
             <input type="text" placeholder="Fullname" id="fullname" name="fullname" value={fullname} onChange={(e) => setFullname(e.target.value)} />
             <input type="text" placeholder="Username" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
             <input type="password" placeholder="Password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />

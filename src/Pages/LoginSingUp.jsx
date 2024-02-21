@@ -1,36 +1,28 @@
 import { Link } from "react-router-dom";
 import PictLogin from "../Components/Assets/pictLogin.jpg";
 import { useState } from "react";
-import axios from "axios";
+import {useAuth} from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+
+
 export default function LoginSingUp() {
+  const {Login} = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const Login = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:5000/login", {
-        email: email,
-        password: password,
-      });
-      navigate("/");
-      // Tangkap message dan token dari tanggapan
-      const { message, token } = response.data;
+   const handleLogin = async (e) => {
+     e.preventDefault();
 
-      // Cetak message dan token ke konsol
-      console.log("Message:", message);
-      console.log("Token:", token);
-    } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message);
-        console.log(error.response);
-      }
-    }
-  };
-
+     try {
+       await Login(email, password);
+       navigate("/"); 
+     } catch (error) {
+       console.error("Failed to log in:", error.message);
+       setError(error.message);
+     }
+   };
   return (
     <>
       <div className="containe-form">
@@ -40,7 +32,7 @@ export default function LoginSingUp() {
         <div className="login-container">
           <h3>Log in</h3>
           <h5>{error}</h5>
-          <form id="form-login" onSubmit={Login}>
+          <form id="form-login" onSubmit={handleLogin}>
             <input type="email" placeholder="Email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" placeholder="Password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button type="submit">LOG IN</button>
