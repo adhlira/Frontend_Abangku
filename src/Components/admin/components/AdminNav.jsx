@@ -30,18 +30,18 @@ export default function AdminNavbar() {
             </Link>
             <ul className="admin-nav-menu">
               <li onClick={handleClick}>
-                <NavLink to="/" classNameName="admin-nav-link">
+                <NavLink to="/" className="admin-nav-link">
                   <h5>Profile Page</h5>
                 </NavLink>
               </li>
               <li onClick={handleClick}>
-                <NavLink to="/about" classNameName="admin-nav-link">
+                <NavLink to="/about" className="admin-nav-link">
                   <h5>About</h5>
                 </NavLink>
               </li>
             </ul>
             <div className="nav-login-cart" onClick={handleClick}>
-              <NavLink to="/login" classNameName="nav-login">
+              <NavLink to="/login" className="nav-login">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"

@@ -29,6 +29,7 @@ export default function Sidebar() {
             width: drawerWidth,
             boxSizing: "border-box",
           },
+      
         }}
       >
         <Toolbar />

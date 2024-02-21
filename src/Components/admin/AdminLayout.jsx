@@ -13,12 +13,17 @@ export default function AdminLayout() {
       <Sidebar />
       <Box
         component="main"
-        sx={{ left: 300, width: "calc(100% - 300px)",  bgcolor: "background.default", p: 3 }}
+        sx={{
+          left: 300,
+          width: "calc(100% - 240px)",
+          bgcolor: "#F6F6F7",
+          p: 3,
+          height: "100vh",
+        }}
       >
         <Toolbar />
 
         <Outlet />
-
       </Box>
     </Box>
   );
