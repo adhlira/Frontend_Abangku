@@ -1,26 +1,28 @@
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { Card, CardContent, Container } from "@mui/material";
-import Charts from "../Charts";
+import Charts from "../components/Charts";
 
 const Dashboard = () => {
   return (
     <>
-    
+     <Typography variant="h4">Dashboard</Typography>
       <Container
-        sx={{ display: "flex", justifyContent: "center", flexDirection: "row", maxWidth: 1200 }}
+        sx={{ display: "flex", justifyContent: "center", flexDirection: "row", width: "100%" }}
       >
+        
         <Container
-          maxWidth="md"
+
           sx={{ display: "flex", mt: 2, justifyContent: "center" }}
         >
+         
           <Card variant="outlined" sx={{ width: 620, height: 384 }}>
             <Charts />
           </Card>
         </Container>
         <Container
-          maxWidth="md"
-          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+
+          sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}
         >
           <Card
             variant="outlined"
