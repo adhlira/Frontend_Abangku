@@ -14,39 +14,39 @@ export default function Sidebar() {
           <h3>Category</h3>
           <ul>
             <li onClick={handleClick}>
-              <NavLink to="/bestseller" className="nav-link">
+              <NavLink to="bestseller" className="nav-link">
                 <h4>Best Seller</h4>
               </NavLink>
             </li>
             <li onClick={handleClick}>
-              <NavLink to="/newcollection" className="nav-link">
+              <NavLink to="newcollection" className="nav-link">
                 <h4>New Collections</h4>
               </NavLink>
             </li>
           </ul>
           <ul>
             <li onClick={handleClick}>
-              <NavLink to="/allproduct" className="nav-link">
+              <NavLink to="allproduct" className="nav-link">
                 <h4>All Product</h4>
               </NavLink>
             </li>
             <li onClick={handleClick}>
-              <NavLink to="/men" className="nav-link">
+              <NavLink to="men" className="nav-link">
                 <h4>Men</h4>
               </NavLink>
             </li>
             <li onClick={handleClick}>
-              <NavLink to="/women" className="nav-link">
+              <NavLink to="women" className="nav-link">
                 <h4>Women</h4>
               </NavLink>
             </li>
             <li onClick={handleClick}>
-              <NavLink to="/kid" className="nav-link">
+              <NavLink to="kid" className="nav-link">
                 <h4>Kid</h4>
               </NavLink>
             </li>
             <li onClick={handleClick}>
-              <NavLink to="/family" className="nav-link">
+              <NavLink to="family" className="nav-link">
                 <h4>Family</h4>
               </NavLink>
             </li>
