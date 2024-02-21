@@ -11,6 +11,7 @@ const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const endpoint = "http://localhost:5000";
 
@@ -20,20 +21,19 @@ const AuthProvider = ({ children }) => {
         email: email,
         password: password,
       });
-      // Tangkap message dan token dari tanggapan
-      const { message, token } = response.data;
-
-      // Cetak message dan token ke konsol
-      console.log("Message:", message);
-      console.log("Token:", token);
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", user.fullname);
+      setIsAuthenticated(true);
+      window.location.href = "/";
     } catch (error) {
       if (error.response) {
         console.log(error.response);
+        setError(error.response.data.message);
       }
     }
   };
   const Register = async (fullname, username, password, email, phonenumber) => {
-
     try {
       await axios.post(`${endpoint}/register`, {
         fullname: fullname,
@@ -42,17 +42,33 @@ const AuthProvider = ({ children }) => {
         email: email,
         phone: phonenumber,
       });
+      window.location.href = "/login";
     } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message);
+      if (error.response && error.response.data && error.response.data.errors) {
+        const { errors } = error.response.data;
+
+        // Memeriksa setiap field untuk pesan error
+        if (errors.allFields) {
+          setError(errors.allFields.message);
+        } else if (errors.email) {
+          setError(errors.email.message);
+        } else if (errors.password) {
+          setError(errors.password.message);
+        } else if (errors.phone) {
+          setError(errors.phone.message);
+        }
+      } else {
+        setError("An error occurred while processing your request.");
       }
     }
   };
 
+
   const values = {
-    error,
     Login,
-    Register
+    Register,
+    isAuthenticated,
+    error,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

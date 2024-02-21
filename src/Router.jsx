@@ -16,7 +16,7 @@ import About from "./Pages/About";
 import Allproduct from "./Pages/Allproduct";
 import NewCollection from "./Pages/NewCollection";
 import BestSeller from "./Pages/BestSeller";
-import Register from "./Pages/Reegister";
+import Register from "./Pages/Register";
 import Family from "./Category/Family";
 import AdminLayout from "./Components/admin/AdminLayout";
 import Dashboard from "./Components/admin/pages/Dashboard";

@@ -47,8 +47,12 @@ nav {
 .running-text h4 {
   font-weight: 300;
   font-size: 0.9rem;
-  animation: run-text 14s linear infinite;
+  animation: run-text 16s linear infinite;
   right: 0;
+}
+.running-text span {
+  font-weight: 800;
+  font-size: 1.1rem;
 }
 .nav-logo {
   display: flex;
@@ -498,16 +502,16 @@ h5.showing {
   padding-bottom: 35px;
 }
 .login-container h3 {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
-.login-container h5 {
+.form h5 {
   color: #ea1d1d;
 }
 .login-container form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 }
 .login-container input {
   height: 40px;

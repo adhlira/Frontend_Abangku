@@ -1,9 +1,23 @@
 import logo from "../Assets/logo.png";
 import { Link, NavLink } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import InputComponent from "../Input/InputComponent";
+import { useAuth } from "../../Context/AuthContext";
+
 export default function Navbar() {
+  const { isAuthenticated } = useAuth();
+  const [nameUser, setNameUser] = useState("");
+  console.log(nameUser);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const name = localStorage.getItem("name");
+    if (token !== "null" && name) {
+      setNameUser(name);
+    }
+  }, [isAuthenticated]);
+
   const handleClick = () => {
     window.scrollTo({
       top: 0,
@@ -12,7 +26,6 @@ export default function Navbar() {
   };
 
   const { cartItems } = useContext(ShopContext);
-
   const totalItems = Object.values(cartItems).reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
@@ -61,7 +74,9 @@ export default function Navbar() {
           </div>
         </div>
         <div className="running-text">
-          <h4>Get 10% off on your first purchase</h4>
+          <h4>
+            Hello <span>{nameUser ? nameUser.toUpperCase() : ""}</span> Welcome to Abangku.Co !!
+          </h4>
         </div>
       </nav>
     </>
