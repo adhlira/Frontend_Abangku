@@ -23,6 +23,7 @@ const AllProducts = () => {
             <th>Description</th>
             <th>Category</th>
             <th>Rating</th>
+            <th>Image</th>
             <th>Option</th>
           </tr>
           {useProduct.map((item, index) => (
@@ -33,6 +34,7 @@ const AllProducts = () => {
               <td>{item.description}</td>
               <td>{item.Category.name}</td>
               <td>{item.rating}</td>
+              <td><img src={item.ProductImage[0].image_url} alt="" /></td>
               <td>
                 <button>Edit</button>
                 <button>Delete</button>
