@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import Relate from "../Relate/Relate";
-import { CreateStars } from "../Rating/Rating";
+import { CreateStars } from "../../helper/Rating";
 
 export default function DetailProduct() {
   const { all_product, addToCart } = useContext(ShopContext);

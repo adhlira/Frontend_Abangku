@@ -4,8 +4,9 @@ import Footer from "../Components/Footer/Footer";
 import FamillyBanner from "../Components/Assets/banner_familly.jpg";
 import Navbar from "../Components/Navbar/Navbar";
 import SelectOption from "../Components/SelectOption/SelectOption";
+import Arrowup from "../Components/ArrowUp/ArrowUp";
 
-export default function Pro() {
+export default function ProductMenu() {
   return (
     <>
       <Navbar />
@@ -17,6 +18,7 @@ export default function Pro() {
         <SelectOption />
         <Outlet />
       </div>
+      <Arrowup />
       <Footer />
     </>
   );

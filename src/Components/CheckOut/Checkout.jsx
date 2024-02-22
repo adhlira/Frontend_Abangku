@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import { Link } from "react-router-dom";
+import {Scrollbar} from "../../helper/Scrollbar";
 
 export default function Checkout() {
   const { selectedItems, all_product, getTotalAmount } = useContext(ShopContext);
@@ -16,13 +17,6 @@ export default function Checkout() {
       setDiscount(0.3);
     }
   };
-    const handleClick = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    };
-
   return (
     <div className="cartItems">
       <div className="cartItems-format-main">
@@ -80,7 +74,7 @@ export default function Checkout() {
               <h3>${(getTotalAmount() - getTotalAmount() * discount).toFixed(2)}</h3>
             </div>
           </div>
-          <button onClick={handleClick}>
+          <button onClick={Scrollbar}>
             <Link to="/virtualAccount" className="nav-link-checkout ">
               Pay for Products
             </Link>

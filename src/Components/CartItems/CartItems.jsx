@@ -2,16 +2,10 @@ import { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import RemoveIcon from "../Assets/cart_cross_icon.png";
 import { Link } from "react-router-dom";
+import { Scrollbar } from "../../helper/Scrollbar";
 
 export default function CartItems() {
   const { all_product, removeCart, cartItems, toggleCheckbox, selectedItems } = useContext(ShopContext);
-
-  const handleClick = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    })
-  };
   const handleRemoveFromCart = (itemId, size) => {
     removeCart(itemId, size);
   };
@@ -69,7 +63,7 @@ export default function CartItems() {
 
       <div className="cartItems-down">
         <div className="cartItems-total">
-          <button onClick={handleClick}>
+          <button onClick={Scrollbar}>
             <Link to="/checkout" className="nav-link-checkout">
               PROCEED TO CHECKOUT
             </Link>

@@ -1,19 +1,12 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { CreateStars } from "../Rating/Rating";
+import { CreateStars } from "../../helper/Rating";
+import {Scrollbar} from "../../helper/Scrollbar";
 
 const Item = (props) => {
   const { id, image, name, new_price, old_price, rating } = props;
-
-  const handleClick = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <div className="item-category" onClick={handleClick}>
+    <div className="item-category" onClick={Scrollbar}>
       <Link to={`detail/${id}`} className="link-item">
         <img src={image} alt={name} />
         <p>{name}</p>

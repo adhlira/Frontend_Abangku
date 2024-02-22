@@ -12,7 +12,7 @@ export default function Kids() {
   }, 0);
   return (
     <>
-      <div className="main-container">
+
         <div className="cloth-category">
           <h5 className="showing">
             <span>Showing </span> 1 -{totalProduct} of the products kids
@@ -26,7 +26,6 @@ export default function Kids() {
             })}
           </div>
         </div>
-      </div>
     </>
   );
 }

@@ -2,6 +2,8 @@ import TextInput from "../../TextInput";
 import { useState } from "react";
 import { useSearch } from "../../Context/SearchContext";
 import { useNavigate } from "react-router-dom";
+import { Scrollbar } from "../../helper/Scrollbar";
+
 export default function InputComponent() {
   const { updateSearchTerm } = useSearch();
   const [searchInput, setSearchInput] = useState("");
@@ -18,7 +20,7 @@ export default function InputComponent() {
       updateSearchTerm(searchInputValue);
       localStorage.setItem("item", searchInputValue);
       navigate("/search");
-      handleScroll()
+      Scrollbar()
     }
   };
   const handleClick = () => {
@@ -29,24 +31,16 @@ export default function InputComponent() {
       navigate("/search");
     }
   };
-
-  const handleScroll = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <>
       <div className="form-input">
-        <TextInput required={true} label="" placeholder="Search your cloth..." onChange={handleInput} onKeyDown={(e) => handleEnterKeyPress(e, navigate, handleScroll)} className="input" />
+        <TextInput required={true} label="" placeholder="Search your cloth..." onChange={handleInput} onKeyDown={(e) => handleEnterKeyPress(e, navigate, Scrollbar)} className="input" />
         <button
           className="btn-Search"
           onChange={handleInput}
           onClick={() => {
             handleClick(navigate);
-            handleScroll();
+           Scrollbar()
           }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
