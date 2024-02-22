@@ -138,7 +138,6 @@ const NewProduct = () => {
               Upload Image
             </Typography>
           <Container sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-
             <Container
               component="section"
               sx={{
