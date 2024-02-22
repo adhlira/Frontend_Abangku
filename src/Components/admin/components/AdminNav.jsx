@@ -20,12 +20,12 @@ export default function AdminNavbar() {
             </Link>
             <ul className="admin-nav-menu">
               <li onClick={Scrollbar}>
-                <NavLink to="/" className="admin-nav-link">
+                <NavLink to="/" className="admin-nav-link" style={{ display: "none"}}>
                   <h5>Profile Page</h5>
                 </NavLink>
               </li>
               <li onClick={Scrollbar}>
-                <NavLink to="/about" className="admin-nav-link">
+                <NavLink to="/about" className="admin-nav-link" style={{ display: "none"}}>
                   <h5>About</h5>
                 </NavLink>
               </li>

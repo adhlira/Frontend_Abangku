@@ -18,7 +18,7 @@ export default function AdminLayout() {
           width: "calc(100% - 240px)",
           bgcolor: "#F6F6F7",
           p: 3,
-          height: "100vh",
+          height: "auto",
         }}
       >
         <Toolbar />
