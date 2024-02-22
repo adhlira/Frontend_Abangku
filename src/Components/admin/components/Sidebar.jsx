@@ -16,7 +16,7 @@ const drawerWidth = 240;
 
 export default function Sidebar() {
   const sidemenu = ["Dashboard", "New Product", "New Coupon"];
-  const sidemenu2 = ["Products", "Categories", "Collection", "Attributes"];
+  const sidemenu2 = ["Products", "Categories", "Collection"];
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
@@ -33,7 +33,7 @@ export default function Sidebar() {
         }}
       >
         <Toolbar />
-        <Box sx={{ overflow: "auto" }}>
+        <Box sx={{ overflow: "auto", margin: 2 }}>
           <Typography variant="h6">Quick Link</Typography>
           <Divider />
           <List>
@@ -41,7 +41,7 @@ export default function Sidebar() {
               <ListItem key={text} disablePadding>
                 <Link
                   to={`/admin/${text}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
+                  style={{ textDecoration: "none", color: "inherit", width: "100%" }}
                 >
                   <ListItemButton>
                     <ListItemIcon>
@@ -60,7 +60,7 @@ export default function Sidebar() {
               <ListItem key={text} disablePadding>
                 <Link
                   to={`/admin/${text}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
+                  style={{ textDecoration: "none", color: "inherit", width: "100%" }}
                 >
                   <ListItemButton>
                     <ListItemIcon>
@@ -78,7 +78,7 @@ export default function Sidebar() {
             <ListItem disablePadding>
               <Link
                 to="/admin/order"
-                style={{ textDecoration: "none", color: "inherit" }}
+                style={{ textDecoration: "none", color: "inherit", width: "100%" }}
               >
                 <ListItemButton>
                   <ListItemIcon>

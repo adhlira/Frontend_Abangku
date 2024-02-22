@@ -14,7 +14,7 @@ const AllProducts = () => {
   }, []);
   console.log(useProduct);
 
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
@@ -72,7 +72,7 @@ const AllProducts = () => {
         </TableHead>
         <TablePagination
           component="div"
-          count={100}
+          count={useProduct.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
