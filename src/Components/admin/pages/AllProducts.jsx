@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { TableHead } from "@mui/material";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const AllProducts = () => {
@@ -13,7 +14,7 @@ const AllProducts = () => {
   console.log(useProduct);
   return (
     <>
-      <h3>All Products</h3>
+      <h2>All Products</h2>
       <TableHead>
         <tbody>
           <tr>
@@ -34,8 +35,12 @@ const AllProducts = () => {
               <td>{item.Category.name}</td>
               <td>{item.rating}</td>
               <td>
-                <button>Edit</button>
-                <button>Delete</button>
+                <button>
+                  <Link to={`edit/${item.id}`}>Edit</Link>
+                </button>
+                <button>
+                  <Link to={`delete/${item.id}`}>Delete</Link>
+                </button>
               </td>
             </tr>
           ))}
