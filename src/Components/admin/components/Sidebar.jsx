@@ -15,7 +15,7 @@ import MailIcon from "@mui/icons-material/Mail";
 const drawerWidth = 240;
 
 export default function Sidebar() {
-  const sidemenu = ["Dashboard", "Insights", "New Product", "New Coupon"];
+  const sidemenu = ["Dashboard", "New Product", "New Coupon"];
   const sidemenu2 = ["Products", "Categories", "Collection", "Attributes"];
   return (
     <Box sx={{ display: "flex" }}>
@@ -84,28 +84,12 @@ export default function Sidebar() {
                   <ListItemIcon>
                     <InboxIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Sales" />
+                  <ListItemText primary="Order" />
                 </ListItemButton>
               </Link>
             </ListItem>
           </List>
-          <List>
-            <Typography variant="h6">Customers</Typography>
-            <Divider />
-            <ListItem disablePadding>
-              <Link
-                to="/admin/customers"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <MailIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Customers" />
-                </ListItemButton>
-              </Link>
-            </ListItem>
-          </List>
+       
         </Box>
       </Drawer>
     </Box>

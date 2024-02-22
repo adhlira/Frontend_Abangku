@@ -21,8 +21,6 @@ import Family from "./Category/Family";
 import AdminLayout from "./Components/admin/AdminLayout";
 import Dashboard from "./Components/admin/pages/Dashboard";
 import NewProduct from "./Components/admin/pages/NewProduct";
-import Insights from "./Components/admin/pages/Insights";
-import AllUsers from "./Components/admin/pages/AllUsers";
 import AllCategories from "./Components/admin/pages/AllCategories";
 import Collection from "./Components/admin/pages/Collection";
 import AllOrder from "./Components/admin/pages/AllOrders";
@@ -87,12 +85,11 @@ const Router = createBrowserRouter([
     path: "/admin",
     Component: AdminLayout,
     children: [
+      { path: "", Component: Dashboard },
       { path: "dashboard", Component: Dashboard },
-      { path: "Insights", Component: Insights },
       { path: "products", Component: AllProducts },
       { path: "new product", Component: NewProduct },
       { path: "new coupon", Component: NewProduct },
-      { path: "customers", Component: AllUsers },
       { path: "categories", Component: AllCategories },
       { path: "attributes", Component: AllCategories },
       { path: "collection", Component: Collection },
