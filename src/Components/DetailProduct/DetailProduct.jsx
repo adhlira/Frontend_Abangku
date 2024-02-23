@@ -5,6 +5,7 @@ import Relate from "../Relate/Relate";
 import { CreateStars } from "../../helper/Rating";
 import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Scrollbar } from "../../helper/Scrollbar";
 
 export default function DetailProduct() {
   const { GetProductbyId, isAuthenticated } = useAuth();
@@ -49,6 +50,7 @@ export default function DetailProduct() {
   const handleAddToCart = () => {
     if (auth=== null) {
      navigate("/login")
+     Scrollbar()
     }
    else {
       if (selectedSize) {

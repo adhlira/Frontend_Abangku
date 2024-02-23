@@ -12,7 +12,7 @@ const Item = (props) => {
       <Link to={`detail/${id}`} className="link-item">
         <img src={image} alt={name} />
         <p className="item-name">{name}</p>
-        <p>{desc}...</p>
+        <p className="desc">{desc}...</p>
         <div className="rating">{rating && CreateStars(rating)}</div>
         <div className="item-prices">
           <div className="item-price-new">${USD}</div>

@@ -1,19 +1,23 @@
 import { useAuth } from "../../Context/AuthContext";
 import { useEffect, useState } from "react";
 import ItemCategory from "../Item/ItemCategory";
+
 export default function Search() {
   const [data, setData] = useState([]);
   const { Search, term } = useAuth();
 
   useEffect(() => {
-    Search(term)
-      .then((products) => {
+    const fetchData = async () => {
+      try {
+        const products = await Search(term);
         setData(products);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
-      });
-  }, [Search,term]);
+      }
+    };
+
+    fetchData();
+  }, [Search, term]);
 
   return (
     <>
@@ -23,9 +27,11 @@ export default function Search() {
           <span>Showing </span> {data.length} of the products
         </h5>
         <div className="cloth-item-cetegory">
-          {data.map((item, index) => {
-            return <ItemCategory key={index} id={item.id} name={item.name} image={item.ProductImage[0].image_url} rating={item.rating} new_price={item.price} description={item.description} />;
-          })}
+          {data.length > 0 ? (
+            data.map((item, index) => <ItemCategory key={index} id={item.id} name={item.name} image={item.ProductImage[0].image_url} rating={item.rating} new_price={item.price} description={item.description} />)
+          ) : (
+            <h2>Product Not Found</h2>
+          )}
         </div>
       </div>
     </>

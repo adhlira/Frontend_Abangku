@@ -239,6 +239,12 @@ nav {
   width: 200px;
   cursor: pointer;
 }
+.item-name,
+.rating,
+.item-price-new,
+.desc {
+  padding-left: 10px;
+}
 .link-item {
   text-decoration: none;
   color: #374151;
@@ -914,7 +920,7 @@ hr {
   gap: 10px;
   margin-top: 10px;
 }
-.cloth-category h2{
+.cloth-category h2 {
   margin-top: 29px;
 }
 .category h3 {
