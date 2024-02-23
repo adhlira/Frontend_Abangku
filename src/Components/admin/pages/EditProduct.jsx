@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const NewProduct = () => {
-  const categories = ["Men", "Women", "Kid", "Family"];
-  const [category, setCategory] = React.useState("");
+  // const categories = ["Men", "Women", "Kid", "Family"];
+  const [category, setCategory] = React.useState([]);
 
   const [useProduct, setProduct] = useState({});
   const { id } = useParams();
@@ -39,11 +39,18 @@ const NewProduct = () => {
   };
 
   useEffect(() => {
+    axios.get("http://localhost:5000/category").then((response) => {
+      setCategory(response.data);
+    });
+  }, []);
+  console.log(setCategory);
+
+  useEffect(() => {
     axios.get(url).then((response) => {
       setProduct(response.data);
       console.log(response);
     });
-  }, []);
+  }, {});
   console.log(useProduct);
 
   return (
@@ -89,10 +96,10 @@ const NewProduct = () => {
                   Category
                 </Typography>
                 <FormControl>
-                  <Select labelId="select-category" value={category} onChange={handleChange} sx={{ width: "32ch", mb: 1 }} placeholder="Select Category">
-                    {categories.map((category) => (
-                      <MenuItem key={category} value={category}>
-                        {category}
+                  <Select labelId="select-category" value="1" onChange={handleChange} sx={{ width: "32ch", mb: 1 }} placeholder="Select Category">
+                    {category.map((item, index) => (
+                      <MenuItem key={index} value={item.id}>
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>
