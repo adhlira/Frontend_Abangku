@@ -9,8 +9,6 @@ import { Scrollbar } from "../../helper/Scrollbar";
 export default function Navbar() {
   const { isAuthenticated } = useAuth();
   const [nameUser, setNameUser] = useState("");
-  console.log(nameUser);
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     const name = localStorage.getItem("name");

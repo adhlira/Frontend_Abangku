@@ -11,8 +11,6 @@ export default function Register() {
   const [phonenumber, setPhonenumber] = useState("");
   const [errorMessage, setErrorMessage] = useState({});
 
-  console.log("ini ", errorMessage);
-
   useEffect(() => {
     if (error && error.allFields && error.allFields.message) {
       setErrorMessage(error.allFields);

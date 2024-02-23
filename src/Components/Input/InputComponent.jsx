@@ -1,34 +1,46 @@
 import TextInput from "../../TextInput";
 import { useState } from "react";
-import { useSearch } from "../../Context/SearchContext";
 import { useNavigate } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
+import { useAuth } from "../../Context/AuthContext";
 
 export default function InputComponent() {
-  const { updateSearchTerm } = useSearch();
+  const { Search } = useAuth();
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
   const handleInput = (e) => {
     const term = e.target.value;
-    setSearchInput(term);
+    setSearchInput(term.toLowerCase());
   };
 
-  const handleEnterKeyPress = (e, navigate) => {
+  const handleEnterKeyPress = (e) => {
     const searchInputValue = searchInput.trim();
 
     if (e.key === "Enter" && searchInputValue !== "") {
-      updateSearchTerm(searchInputValue);
-      localStorage.setItem("item", searchInputValue);
-      navigate("/search");
-      Scrollbar()
+      Search(searchInputValue)
+        .then(() => {
+          localStorage.setItem("item", searchInputValue);
+          navigate("/search");
+          Scrollbar();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
+
   const handleClick = () => {
     if (searchInput.trim() !== "") {
       const searchInputValue = searchInput.trim();
-      updateSearchTerm(searchInputValue);
-      localStorage.setItem("item", searchInputValue);
-      navigate("/search");
+      Search(searchInputValue) 
+        .then(() => {
+          localStorage.setItem("item", searchInputValue);
+          navigate("/search");
+          Scrollbar();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
   return (
@@ -40,7 +52,7 @@ export default function InputComponent() {
           onChange={handleInput}
           onClick={() => {
             handleClick(navigate);
-           Scrollbar()
+            Scrollbar();
           }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

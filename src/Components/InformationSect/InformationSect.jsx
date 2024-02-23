@@ -16,7 +16,7 @@ export default function InformationSect() {
       <div className="info-sec1">
         <div className="information-discount">
           <h2>Order now and get 10% off!</h2>
-          <Link to="/allproduct" className="nav-link" onClick={Scrollbar}>
+          <Link to="/allproduct" className="nav-link-btn" onClick={Scrollbar}>
             <button>See Product</button>
           </Link>
         </div>

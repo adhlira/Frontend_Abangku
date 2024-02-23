@@ -11,7 +11,9 @@ const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
+  const [term, setTerms] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pageBanner, setBanner] = useState(4);
 
   const endpoint = "http://localhost:5000";
 
@@ -45,17 +47,57 @@ const AuthProvider = ({ children }) => {
       window.location.href = "/login";
     } catch (error) {
       if (error.response) {
-        console.log(error.response);
         setError(error.response.data.errors);
       }
     }
   };
 
+  const Product = async () => {
+    try {
+      const response = await axios.get(`${endpoint}/product`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  const GetProductbyId = async (id) => {
+    try {
+      const response = await axios.get(`${endpoint}/product/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const Search = async (searchTerm) => {
+    try {
+      const response = await axios.get(`${endpoint}/product?name=${searchTerm}`);
+      console.log(response.data);
+      setTerms(searchTerm);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const Banner = (Banner) => {
+    setBanner(Banner);
+  };
+
   const values = {
     Login,
     Register,
+    Product,
     isAuthenticated,
     error,
+    GetProductbyId,
+    Search,
+    term,
+    Banner,
+    pageBanner,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
