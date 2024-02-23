@@ -6,13 +6,11 @@ import BigContainer from "../components/BigContainer";
 
 const AllCategories = () => {
   const [useCategory, setCategory] = useState([]);
-
   useEffect(() => {
     axios.get("http://localhost:5000/category").then((response) => {
       setCategory(response.data);
     });
   }, []);
-  console.log(useCategory);
   return (
     <>
       <div className="header-product" style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
