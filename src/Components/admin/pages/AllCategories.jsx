@@ -18,7 +18,7 @@ const AllCategories = () => {
       <div className="header-product" style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
         <h3>All Categories</h3>
         <Button variant="contained">
-          <Link to="/admin/New%20Product" className="nav-link" style={{ color: "white" }}>
+          <Link to="/admin/addCategories" className="nav-link" style={{ color: "white" }}>
             Add Categories
           </Link>
         </Button>
