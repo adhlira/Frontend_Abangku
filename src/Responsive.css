@@ -1,0 +1,121 @@
+@media screen and (max-width: 884px) {
+  .nav-logo p {
+    display: none;
+  }
+  .nav-menu h5 {
+    font-size: 0.8rem;
+  }
+  .nav-menu {
+    gap: 30px;
+    width: 70%;
+  }
+  .form-input {
+    max-width: 250px;
+  }
+  .input {
+    width: 60%;
+  }
+  .cloth-item {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .info-sec2 {
+    max-width: 750px;
+  }
+  .box-style img {
+    width: 650px;
+    height: 650px;
+  }
+  .cloth-item-next {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .social-media svg {
+    width: 20px;
+    height: 20px;
+  }
+  .footer-last p {
+    font-size: 0.7rem;
+  }
+  .banner img {
+    width: 100%;
+  }
+  .cloth-item-cetegory {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 60%;
+    padding-left: 0;
+    margin-left: -200px;
+  }
+  .category {
+    padding-left: 30px;
+    padding-top: 100px;
+  }
+  .box-category {
+    width: 150px;
+  }
+  .cloth-category {
+    width: 75%;
+  }
+  .cloth-category h2 {
+    margin-left: -50px;
+  }
+  .path-product {
+    max-width: 750px;
+    margin-left: 30px;
+  }
+  .detail-container {
+    width: 750px;
+    margin-left: 30px;
+  }
+  .detail-left {
+    width: 350px;
+  }
+  .detail-image img {
+    width: 320px;
+  }
+  .detail-left.zoomed {
+    transform: translate(-50%, -50%);
+  }
+  .cartItems {
+    margin: 100px 50px;
+  }
+  .cartItems-down {
+    display: flex;
+    margin: 100px 0px;
+    width: 750px;
+  }
+  .cartItems-promobox {
+    width: 240px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+  }
+  .cartItems-promobox button {
+    margin-top: 5px;
+    width: 100%;
+  }
+  .cartItems-promo-code p {
+    width: 240px;
+  }
+  .cartItems-promo-code input {
+    padding-left: 10px;
+  }
+  .side-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .About-page {
+    max-width: 750px;
+  }
+  .containe-form {
+    max-width: 700px;
+  }
+  .login-container input {
+    width: 90%;
+  }
+  .login-container button {
+    width: 90%;
+  }
+}
