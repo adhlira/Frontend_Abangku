@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ItemCategory from "../Components/Item/ItemCategory";
 import { useAuth } from "../Context/AuthContext";
 export default function Allproduct() {
-  const { Product } = useAuth();
+  const { Product, filter } = useAuth();
   const [data, setData] = useState([]);
 
   const totalProduct = data.reduce((acc) => {
@@ -12,12 +12,24 @@ export default function Allproduct() {
   useEffect(() => {
     Product()
       .then((products) => {
-        setData(products);
+        let sortedProducts = [...products];
+        if (filter === "Newest Product") {
+          sortedProducts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        } else if (filter === "Most Expensive") {
+          sortedProducts.sort((a, b) => b.price - a.price);
+        } else if (filter === "Cheapest") {
+          sortedProducts.sort((a, b) => a.price - b.price);
+        } else if (filter === "Alphabets A-Z") {
+          sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (filter === "Alphabets Z-A") {
+          sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        setData(sortedProducts);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [Product]);
+  }, [Product, filter]); // Menjalankan efek setiap kali filter berubah atau produk dimuat ulang
 
   return (
     <>

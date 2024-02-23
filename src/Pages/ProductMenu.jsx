@@ -1,6 +1,7 @@
 import Sidebar from "../Components/Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 import Footer from "../Components/Footer/Footer";
+
 import Navbar from "../Components/Navbar/Navbar";
 import SelectOption from "../Components/SelectOption/SelectOption";
 import Arrowup from "../Components/ArrowUp/ArrowUp";

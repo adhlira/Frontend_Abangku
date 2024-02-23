@@ -13,7 +13,8 @@ const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [term, setTerms] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [pageBanner, setBanner] = useState(4);
+  const [pageBanner, setBanner] = useState(null);
+    const [filter, setCurrentFilter] = useState("");
 
   const endpoint = "http://localhost:5000";
 
@@ -86,6 +87,7 @@ const AuthProvider = ({ children }) => {
   const Banner = (Banner) => {
     setBanner(Banner);
   };
+  const setFilter = (filter) => setCurrentFilter(filter);
 
   const values = {
     Login,
@@ -98,6 +100,8 @@ const AuthProvider = ({ children }) => {
     term,
     Banner,
     pageBanner,
+    setFilter,
+    filter,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

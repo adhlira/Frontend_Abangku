@@ -4,7 +4,7 @@ import { useAuth } from "../../Context/AuthContext";
 import { useEffect, useState } from "react";
 
 export default function Sidebar() {
-  const [pageBanner, setPageBanner] = useState("");
+  const [pageBanner, setPageBanner] = useState(4);
   const { Banner } = useAuth();
 
   useEffect(() => {

@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useAuth } from "../../Context/AuthContext";
 
 export default function SelectOption() {
   const [showOption, setShowOption] = useState("Select Filter");
+  const { setFilter } = useAuth();
 
   const handleOption = (option) => {
     setShowOption(option);
+    setFilter(option); 
   };
 
   return (
