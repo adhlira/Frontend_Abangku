@@ -16,13 +16,13 @@ const AllCategories = () => {
   return (
     <>
       <div className="header-product" style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
-      <h3>All Categories</h3>
-      <Button variant="contained">
-        <Link to="/admin/New%20Product" className="nav-link" style={{ color: "white" }}>
-          Add Categories
-        </Link>
-      </Button>
-    </div>
+        <h3>All Categories</h3>
+        <Button variant="contained">
+          <Link to="/admin/New%20Product" className="nav-link" style={{ color: "white" }}>
+            Add Categories
+          </Link>
+        </Button>
+      </div>
       <BigContainer>
         <TableHead sx={{ minWidth: "500px" }}>
           <tbody>
@@ -36,8 +36,12 @@ const AllCategories = () => {
                 <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>
-                  <button>Edit</button>
-                  <button>Delete</button>
+                  <button>
+                    <Link to={`edit/${item.id}`}>Edit</Link>
+                  </button>
+                  <button>
+                    <Link to={`hapus/${item.id}`}>Hapus</Link>
+                  </button>
                 </td>
               </tr>
             ))}

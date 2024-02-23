@@ -28,14 +28,14 @@ const AllProducts = () => {
 
   return (
     <>
-    <div className="header-product" style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
-      <h3>All Products</h3>
-      <Button variant="contained">
-        <Link to="/admin/New%20Product" className="nav-link" style={{ color: "white" }}>
-          Add Product
-        </Link>
-      </Button>
-    </div>
+      <div className="header-product" style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
+        <h3>All Products</h3>
+        <Button variant="contained">
+          <Link to="/admin/New%20Product" className="nav-link" style={{ color: "white" }}>
+            Add Product
+          </Link>
+        </Button>
+      </div>
 
       <BigContainer className="product-table-container">
         <TableHead>
@@ -51,33 +51,28 @@ const AllProducts = () => {
               <th>Option</th>
             </tr>
 
-            {useProduct
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((item, index) => (
-                <tr key={index}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.description}</td>
-                  <td>{item.Category.name}</td>
-                  <td>{item.rating}</td>
-                  <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                  </td>
-                </tr>
-              ))}
+            {useProduct.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+              <tr key={index}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>{item.quantity}</td>
+                <td>{item.description}</td>
+                <td>{item.Category.name}</td>
+                <td>{item.rating}</td>
+                <td>
+                  <button>
+                    <Link to={`edit/${item.id}`}>Edit</Link>
+                  </button>
+                  <button>
+                    <Link to={`hapus/${item.id}`}>Hapus</Link>
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </TableHead>
-        <TablePagination
-          component="div"
-          count={useProduct.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <TablePagination component="div" count={useProduct.length} page={page} onPageChange={handleChangePage} rowsPerPage={rowsPerPage} onRowsPerPageChange={handleChangeRowsPerPage} />
       </BigContainer>
     </>
   );
