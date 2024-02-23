@@ -4,9 +4,10 @@ import { ShopContext } from "../../Context/ShopContext";
 import Relate from "../Relate/Relate";
 import { CreateStars } from "../../helper/Rating";
 import { useAuth } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function DetailProduct() {
-  const { GetProductbyId } = useAuth();
+  const { GetProductbyId, isAuthenticated } = useAuth();
   const [product, setProduct] = useState(null);
   const { addToCart } = useContext(ShopContext);
   const { id } = useParams();
@@ -15,6 +16,15 @@ export default function DetailProduct() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState(false);
+  const [auth ,  setIsAuthenticated] = useState(null)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if(token !== "null"){
+      setIsAuthenticated(token)
+    }
+  },[isAuthenticated])
 
   useEffect(() => {
     GetProductbyId(productId)
@@ -36,15 +46,21 @@ export default function DetailProduct() {
       return () => clearTimeout(timer);
     }
   }, [message]);
-
   const handleAddToCart = () => {
-    if (selectedSize) {
-      addToCart(product.id, selectedSize);
-      setMessage(true);
-    } else {
-      setShowModal(true);
+    if (auth=== null) {
+     navigate("/login")
     }
-  };
+   else {
+      if (selectedSize) {
+        addToCart(product.id, selectedSize);
+        setMessage(true);
+      } else {
+        setShowModal(true);
+      }
+  }
+}
+const b = isAuthenticated
+console.log(b)
 
   return (
     <>

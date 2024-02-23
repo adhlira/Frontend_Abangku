@@ -8,9 +8,6 @@ export default function Relate({ value }) {
 
   const { Product } = useAuth();
   const category = value;
-
-  console.log(category);
-
   useEffect(() => {
   Product()
     .then((products) => {

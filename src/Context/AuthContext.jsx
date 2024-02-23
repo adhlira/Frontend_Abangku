@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 
@@ -14,9 +14,15 @@ const AuthProvider = ({ children }) => {
   const [term, setTerms] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pageBanner, setBanner] = useState(null);
-    const [filter, setCurrentFilter] = useState("");
+  const [filter, setCurrentFilter] = useState("");
 
   const endpoint = "http://localhost:5000";
+
+  useEffect(() => {
+    if (localStorage.getItem("item", term) !== "null") {
+      setTerms(localStorage.getItem("item"));
+    }
+  }, [term]);
 
   const Login = async (email, password) => {
     try {
@@ -24,10 +30,10 @@ const AuthProvider = ({ children }) => {
         email: email,
         password: password,
       });
+      setIsAuthenticated(true);
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("name", user.fullname);
-      setIsAuthenticated(true);
       window.location.href = "/";
     } catch (error) {
       if (error.response) {
