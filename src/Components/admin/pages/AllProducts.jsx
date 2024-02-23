@@ -12,7 +12,7 @@ const AllProducts = () => {
       setProduct(response.data);
     });
   }, []);
-  console.log(useProduct);
+
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

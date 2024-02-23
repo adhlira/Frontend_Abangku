@@ -29,6 +29,7 @@ import EditProduct from "./Components/admin/pages/EditProduct";
 import EditCategories from "./Components/admin/pages/EditCategories";
 import ProductMenu from "./Pages/ProductMenu";
 import AddCategories from "./Components/admin/pages/AddCategories";
+import AddProduct from "./Components/admin/pages/AddProduct";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -93,13 +94,14 @@ const Router = createBrowserRouter([
       { path: "products", Component: AllProducts },
       { path: "products/edit/:id", Component: EditProduct },
       { path: "new product", Component: NewProduct },
-      { path: "new coupon", Component: NewProduct },
+      { path: "new coupon", Component: AddProduct },
       { path: "categories", Component: AllCategories },
       { path: "addCategories", Component: AddCategories },
       { path: "categories/edit/:id", Component: EditCategories },
       { path: "attributes", Component: AllCategories },
       { path: "collection", Component: Collection },
       { path: "order", Component: AllOrder },
+      
     ],
   },
 ]);

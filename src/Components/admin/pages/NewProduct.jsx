@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Card,
   Container,
@@ -15,10 +16,75 @@ import {
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+const form = new FormData();
+form.append("name", "test");
+form.append("description", "test");
+form.append("price", "test");
+form.append("category_id", "test");
+form.append("quantity", "test");
+form.append("rating", "test");
+form.append("photo", "test");
+
+const postProduct = async () => {
+  try {
+    const response = await axios.post("https://localhost:5000/product", form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const NewProduct = () => {
   const categories = ["Men", "Women", "Kid", "Family"];
   const [category, setCategory] = React.useState("");
+
+  const [formData, setFormData] = React.useState({
+    name: "",
+    description: "",
+    price: "",
+    category_id: "",
+    quantity: "",
+    rating: "",
+    image: null,
+  });
+
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      photo: e.target.files[0],
+    });
+  };
+
+  const handleProductChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://localhost:5000/product",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleChange = (event) => {
     setCategory(event.target.value);
@@ -47,7 +113,7 @@ const NewProduct = () => {
   return (
     <>
       <Typography variant="h5">Create A New Product</Typography>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Container
           sx={{
             display: "flex",
@@ -96,7 +162,6 @@ const NewProduct = () => {
                   <FormControl>
                     <Select
                       labelId="select-category"
-                      value={category}
                       onChange={handleChange}
                       sx={{ width: "32ch", mb: 1 }}
                       placeholder="Select Category"
@@ -166,6 +231,7 @@ const NewProduct = () => {
                   type="file"
                   onChange={handleImageChange}
                   hidden
+                  name="image"
                 />
                 <label htmlFor="select-image">
                   <Button component="span">
@@ -190,13 +256,8 @@ const NewProduct = () => {
                   <Button onClick={handleRemoveImage}>Remove Image</Button>
                 </Box>
               )}
-
-              <Button variant="contained" sx={{ mt: 2, width: "50%" }}>
-                Upload
-              </Button>
             </Container>
           </Card>
-
           {/* side card */}
           <Card
             variant="outlined"
@@ -242,6 +303,7 @@ const NewProduct = () => {
                 <Button
                   variant="contained"
                   sx={{ backgroundColor: "green", width: "40%" }}
+                  onClick={handleSubmit}
                 >
                   Save
                 </Button>
