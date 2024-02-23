@@ -28,6 +28,7 @@ import AllProducts from "./Components/admin/pages/AllProducts";
 import EditProduct from "./Components/admin/pages/EditProduct";
 import EditCategories from "./Components/admin/pages/EditCategories";
 import ProductMenu from "./Pages/ProductMenu";
+import AddCategories from "./Components/admin/pages/AddCategories";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -94,6 +95,7 @@ const Router = createBrowserRouter([
       { path: "new product", Component: NewProduct },
       { path: "new coupon", Component: NewProduct },
       { path: "categories", Component: AllCategories },
+      { path: "addCategories", Component: AddCategories },
       { path: "categories/edit/:id", Component: EditCategories },
       { path: "attributes", Component: AllCategories },
       { path: "collection", Component: Collection },
