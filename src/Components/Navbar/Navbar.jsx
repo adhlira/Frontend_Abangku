@@ -9,6 +9,8 @@ import { Scrollbar } from "../../helper/Scrollbar";
 export default function Navbar() {
   const { isAuthenticated } = useAuth();
   const [nameUser, setNameUser] = useState("");
+  const [navActive, setNavactive] = useState(false);
+  const [burger, setBurger] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const name = localStorage.getItem("name");
@@ -20,6 +22,11 @@ export default function Navbar() {
   const { cartItems } = useContext(ShopContext);
   const totalItems = Object.values(cartItems).reduce((acc, curr) => acc + curr.quantity, 0);
 
+  const toggleNavActive = () => {
+    setNavactive(!navActive);
+    setBurger(!burger);
+  };
+
   return (
     <>
       <nav>
@@ -30,26 +37,28 @@ export default function Navbar() {
               <p>Abangku.Co</p>
             </div>
           </Link>
-          <ul className="nav-menu">
-            <li onClick={Scrollbar}>
-              <NavLink to="/" className="nav-link">
-                <h5>Home</h5>
-              </NavLink>
-            </li>
-            <li onClick={Scrollbar}>
-              <NavLink to="/allproduct" className="nav-link">
-                <h5>All Product</h5>
-              </NavLink>
-            </li>
-            <li onClick={Scrollbar}>
-              <NavLink to="/about" className="nav-link">
-                <h5>About</h5>
-              </NavLink>
-            </li>
-            <li>
-              <InputComponent />
-            </li>
-          </ul>
+          <div className={`nav-right ${navActive ? "nav-active" : ""}`}>
+            <ul className="nav-menu">
+              <li onClick={Scrollbar}>
+                <NavLink to="/" className="nav-link">
+                  <h5>Home</h5>
+                </NavLink>
+              </li>
+              <li onClick={Scrollbar}>
+                <NavLink to="/allproduct" className="nav-link">
+                  <h5>All Product</h5>
+                </NavLink>
+              </li>
+              <li onClick={Scrollbar}>
+                <NavLink to="/about" className="nav-link">
+                  <h5>About</h5>
+                </NavLink>
+              </li>
+              <li>
+                <InputComponent />
+              </li>
+            </ul>
+          </div>
           <div className="nav-login-cart" onClick={Scrollbar}>
             <NavLink to="/login" className="nav-login">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
@@ -63,6 +72,11 @@ export default function Navbar() {
               </svg>
             </NavLink>
             <div className="nav-cart-count">{totalItems}</div>
+          </div>
+          <div className={`burger ${burger ? "toggle-burger" : ""}`} onClick={toggleNavActive}>
+            <div className="line-1"></div>
+            <div className="line-2"></div>
+            <div className="line-3"></div>
           </div>
         </div>
         <div className="running-text">

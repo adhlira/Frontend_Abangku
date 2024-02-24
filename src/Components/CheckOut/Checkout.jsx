@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import { Link } from "react-router-dom";
-import {Scrollbar} from "../../helper/Scrollbar";
+import { Scrollbar } from "../../helper/Scrollbar";
 
 export default function Checkout() {
   const { selectedItems, all_product, getTotalAmount } = useContext(ShopContext);

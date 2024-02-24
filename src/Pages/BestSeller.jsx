@@ -37,7 +37,7 @@ useEffect(() => {
     <>
 
         <div className="cloth-category">
-          <h2>Best Seller Clothing Products</h2>
+          <h2>Best Clothing Products</h2>
           <h5 className="showing">
             <span>Showing </span> 1 -{totalProduct} of the products best seller
           </h5>
