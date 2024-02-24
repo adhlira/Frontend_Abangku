@@ -4,10 +4,11 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Category } from "@mui/icons-material";
 
 const NewProduct = () => {
-  // const categories = ["Men", "Women", "Kid", "Family"];
   const [category, setCategory] = React.useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [useProduct, setProduct] = useState({});
   const { id } = useParams();
@@ -15,7 +16,7 @@ const NewProduct = () => {
   const url = `${end_point}/${id}`;
 
   const handleChange = (event) => {
-    setCategory(event.target.value);
+    setSelectedCategory(event.target.value);
   };
 
   const [selectedImage, setSelectedImage] = React.useState(null);
@@ -43,7 +44,7 @@ const NewProduct = () => {
       setCategory(response.data);
     });
   }, []);
-  console.log(setCategory);
+  console.log(category);
 
   useEffect(() => {
     axios.get(url).then((response) => {
@@ -96,7 +97,10 @@ const NewProduct = () => {
                   Category
                 </Typography>
                 <FormControl>
-                  <Select labelId="select-category" value="1" onChange={handleChange} sx={{ width: "32ch", mb: 1 }} placeholder="Select Category">
+                  <Select sx={{ width: "32ch", mb: 1 }} placeholder="Select Category" defaultValue={"0"} onChange={handleChange}>
+                    <MenuItem value={"0"} disabled>
+                      {useProduct.Category?.name}
+                    </MenuItem>
                     {category.map((item, index) => (
                       <MenuItem key={index} value={item.id}>
                         {item.name}
