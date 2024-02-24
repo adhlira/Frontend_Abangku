@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { TableHead, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -6,11 +7,28 @@ import BigContainer from "../components/BigContainer";
 
 const AllCategories = () => {
   const [useCategory, setCategory] = useState([]);
+
   useEffect(() => {
     axios.get("http://localhost:5000/category").then((response) => {
       setCategory(response.data);
     });
   }, []);
+
+  const handleDeleteCategory = async (categoryId) => {
+    // Konfirmasi sebelum menghapus
+    const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus kategori ini ?`);
+
+    if (!confirmDelete) {
+      return; // Batal menghapus jika pengguna membatalkan konfirmasi
+    }
+    try {
+      await axios.delete(`http://localhost:5000/category/${categoryId}`);
+
+      window.location.reload();
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+    }
+  };
   return (
     <>
       <div className="header-product" style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
@@ -37,9 +55,7 @@ const AllCategories = () => {
                   <button>
                     <Link to={`edit/${item.id}`}>Edit</Link>
                   </button>
-                  <button>
-                    <Link to={`hapus/${item.id}`}>Hapus</Link>
-                  </button>
+                  <button onClick={() => handleDeleteCategory(item.id)}>Hapus</button>
                 </td>
               </tr>
             ))}
