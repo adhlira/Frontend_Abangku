@@ -18,27 +18,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const form = new FormData();
-form.append("name", "test");
-form.append("description", "test");
-form.append("price", "test");
-form.append("category_id", "test");
-form.append("quantity", "test");
-form.append("rating", "test");
-form.append("photo", "test");
 
-const postProduct = async () => {
-  try {
-    const response = await axios.post("https://localhost:5000/product", form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    console.log(response.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const NewProduct = () => {
   const categories = ["Men", "Women", "Kid", "Family"];
