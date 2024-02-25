@@ -588,7 +588,7 @@ next .cloth-container h2 {
   cursor: pointer;
 }
 .btn-addCart button {
-  width: 120px;
+  width: 150px;
   height: 40px;
   background-color: #a62c27;
   color: white;
@@ -596,7 +596,22 @@ next .cloth-container h2 {
   border-radius: 5px;
   cursor: pointer;
 }
-.edit,
+.quantity-container {
+  display: flex;
+  width: 150px;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+.quantity {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #a62c27;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-modal,
 .checkbox {
   cursor: pointer;
 }
@@ -1082,6 +1097,71 @@ hr {
 }
 .successContainer svg {
   color: rgb(16, 233, 16);
+}
+.nav-login-cart li {
+  list-style: none;
+  cursor: pointer;
+  color: white;
+}
+
+/* MODAL BOX EDIT */
+.modal-edit-item {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+.modal-content {
+  text-align: center;
+}
+.modal-product-image {
+  max-width: 100px;
+  max-height: 100px;
+  margin-bottom: 10px;
+}
+
+.modal-button-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-content select {
+  margin-top: 10px;
+  width: 100%;
+}
+button.btn-disabled:hover {
+  background-color: #a62c27;
+}
+.btn-action-cart {
+  width: 30px;
+  height: 30px;
+  padding-top: 3px;
+  background-color: #a62c27;
+  border-radius: 5px;
+  color: white;
+  border: 1px solid #a62c27;
+}
+button.btn-action-cart:hover,
+button.btn-close-action:hover {
+  background-color: #ea1d1d;
+  cursor: pointer;
+}
+
+button.btn-close-action {
+  width: 70px;
+  height: 30px;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid #a62c27;
+  background-color: #a62c27;
+  margin-top: 15px;
 }
 
 /* END MODAL BOX */

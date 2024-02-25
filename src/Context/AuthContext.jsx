@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pageBanner, setBanner] = useState(null);
   const [filter, setCurrentFilter] = useState("");
-
+  const [email, setEmail] = useState("");
   const endpoint = "http://localhost:5000";
 
   useEffect(() => {
@@ -23,6 +23,12 @@ const AuthProvider = ({ children }) => {
       setTerms(localStorage.getItem("item"));
     }
   }, [term]);
+
+  useEffect(() => {
+    if (localStorage.getItem("email") !== "null") {
+      setEmail(localStorage.getItem("email"));
+    }
+  }, [email]);
 
   const Login = async (email, password) => {
     try {
@@ -34,7 +40,13 @@ const AuthProvider = ({ children }) => {
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("name", user.fullname);
-      window.location.href = "/";
+      localStorage.setItem("email", user.email);
+
+      if (user.fullname === "Admin") {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/";
+      }
     } catch (error) {
       if (error.response) {
         console.log(error.response);
@@ -42,6 +54,18 @@ const AuthProvider = ({ children }) => {
       }
     }
   };
+
+  const getRoleID = async () => {
+    try {
+      const response = await axios.get(`${endpoint}/users?email=${email}`);
+      localStorage.setItem("roleID", response.data[0].role_id);
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const Register = async (fullname, username, password, email, phonenumber) => {
     try {
       await axios.post(`${endpoint}/register`, {
@@ -90,6 +114,34 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const addToCart = async (product_id, quantity, size_id) => {
+    try {
+      const token = localStorage.getItem("token"); 
+      const response = await axios.post(
+        `${endpoint}/cart`,
+        {
+          product_id: product_id,
+          quantity: quantity,
+          size_id: size_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+      );
+      console.log(response.data.message); 
+    } catch (error) {
+      console.error(error.response.data.message); 
+    }
+  };
+
+  const Logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("roleID");
+  };
   const Banner = (Banner) => {
     setBanner(Banner);
   };
@@ -108,6 +160,9 @@ const AuthProvider = ({ children }) => {
     pageBanner,
     setFilter,
     filter,
+    Logout,
+    getRoleID,
+    addToCart
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

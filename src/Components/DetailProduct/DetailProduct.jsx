@@ -1,31 +1,31 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ShopContext } from "../../Context/ShopContext";
 import Relate from "../Relate/Relate";
 import { CreateStars } from "../../helper/Rating";
 import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
+import ModalSucces from "../ModalBox/ModalSucces";
 
 export default function DetailProduct() {
-  const { GetProductbyId, isAuthenticated } = useAuth();
+  const { GetProductbyId, isAuthenticated, addToCart } = useAuth();
   const [product, setProduct] = useState(null);
-  const { addToCart } = useContext(ShopContext);
   const { id } = useParams();
   const productId = parseInt(id);
   const [isZoomed, setIsZoomed] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState(false);
-  const [auth ,  setIsAuthenticated] = useState(null)
+  const [auth, setIsAuthenticated] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if(token !== "null"){
-      setIsAuthenticated(token)
+    if (token !== "null") {
+      setIsAuthenticated(token);
     }
-  },[isAuthenticated])
+  }, [isAuthenticated]);
 
   useEffect(() => {
     GetProductbyId(productId)
@@ -48,22 +48,29 @@ export default function DetailProduct() {
     }
   }, [message]);
   const handleAddToCart = () => {
-    if (auth=== null) {
-     navigate("/login")
-     Scrollbar()
-    }
-   else {
+    if (auth === null) {
+      navigate("/login");
+      Scrollbar();
+    } else {
       if (selectedSize) {
-        addToCart(product.id, selectedSize);
+        addToCart(product?.id, quantity, selectedSize);
         setMessage(true);
       } else {
         setShowModal(true);
       }
-  }
-}
-const b = isAuthenticated
-console.log(b)
+    }
+  };
 
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      setQuantity(1);
+    }
+  };
   return (
     <>
       {product && (
@@ -99,10 +106,28 @@ console.log(b)
               <h4>Select Size</h4>
               <div className="btn-size">
                 {product.ProductSize.map((size, index) => (
-                  <button key={index} onClick={() => setSelectedSize(size.Size.name)}>
+                  <button key={index} onClick={() => setSelectedSize(size.Size.id)}>
                     {size.Size.name}
                   </button>
                 ))}
+              </div>
+
+              <div>
+                <h4>Quantity</h4>
+                <div className="quantity-container">
+                  <button className="btn-action-cart" onClick={handleIncrease}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                    </svg>
+                  </button>
+                  <div className="quantity">{quantity}</div>
+
+                  <button className="btn-action-cart" onClick={handleDecrease}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </button>
+                </div>
               </div>
               <div className="btn-addCart">
                 <button onClick={handleAddToCart}>ADD TO CART</button>
@@ -119,13 +144,7 @@ console.log(b)
           )}
           {message && (
             <div className="success-box">
-              <div className="successContainer">
-                <h4>Product Item Successfully added to Cart!</h4>
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0" />
-                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
-                </svg>
-              </div>
+              <ModalSucces />
             </div>
           )}
           <Relate value={product.Category.name} />
