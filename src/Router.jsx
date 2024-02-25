@@ -30,6 +30,8 @@ import EditCategories from "./Components/admin/pages/EditCategories";
 import ProductMenu from "./Pages/ProductMenu";
 import AddCategories from "./Components/admin/pages/AddCategories";
 import AddProduct from "./Components/admin/pages/AddProduct";
+import ProfileUser from "./Pages/ProfileUser";
+
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -48,6 +50,7 @@ const Router = createBrowserRouter([
       { path: "", Component: DetailProduct, children: [{ path: "/family/detail/:id", Component: Relate }] },
       { path: "/login", Component: LoginSingUp },
       { path: "/register", Component: Register },
+      { path: "/user", Component: ProfileUser },
       {
         path: "",
         children: [
@@ -101,7 +104,6 @@ const Router = createBrowserRouter([
       { path: "attributes", Component: AllCategories },
       { path: "collection", Component: Collection },
       { path: "order", Component: AllOrder },
-      
     ],
   },
 ]);
