@@ -50,7 +50,6 @@ const Router = createBrowserRouter([
       { path: "", Component: DetailProduct, children: [{ path: "/family/detail/:id", Component: Relate }] },
       { path: "/login", Component: LoginSingUp },
       { path: "/register", Component: Register },
-      { path: "/user", Component: ProfileUser },
       {
         path: "",
         children: [
@@ -106,6 +105,7 @@ const Router = createBrowserRouter([
       { path: "order", Component: AllOrder },
     ],
   },
+  { path: "/user", Component: ProfileUser },
 ]);
 
 export default Router;

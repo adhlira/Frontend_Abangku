@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const getRoleID = async () => {
+  /*  const getRoleID = async () => {
     try {
       const response = await axios.get(`${endpoint}/users?email=${email}`);
       localStorage.setItem("roleID", response.data[0].role_id);
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }; */
 
   const Register = async (fullname, username, password, email, phonenumber) => {
     try {
@@ -116,7 +116,7 @@ const AuthProvider = ({ children }) => {
 
   const addToCart = async (product_id, quantity, size_id) => {
     try {
-      const token = localStorage.getItem("token"); 
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         `${endpoint}/cart`,
         {
@@ -126,13 +126,27 @@ const AuthProvider = ({ children }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log(response.data.message); 
+      console.log(response.data.message);
     } catch (error) {
-      console.error(error.response.data.message); 
+      console.error(error.response.data.message);
+    }
+  };
+  const getCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`${endpoint}/cart`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
   };
 
@@ -161,8 +175,9 @@ const AuthProvider = ({ children }) => {
     setFilter,
     filter,
     Logout,
-    getRoleID,
-    addToCart
+    // getRoleID,
+    addToCart,
+    getCart,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

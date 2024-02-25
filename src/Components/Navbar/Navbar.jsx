@@ -7,27 +7,28 @@ import { useAuth } from "../../Context/AuthContext";
 import { Scrollbar } from "../../helper/Scrollbar";
 
 export default function Navbar() {
-  const { isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
   const [nameUser, setNameUser] = useState("");
   const [navActive, setNavactive] = useState(false);
   const [burger, setBurger] = useState(false);
   const [userRole, setUserRole] = useState("");
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const name = localStorage.getItem("name");
-    if (token !== "null" && name ==="Admin") {
-      setNameUser(name);
-      setUserRole(name)
-    }else{
-      setNameUser(name);
-      setUserRole("login")
-    }
+ useEffect(() => {
+   const token = localStorage.getItem("token");
+   const name = localStorage.getItem("name");
 
-  }, [isAuthenticated]);
+   if (token && name === "Admin") {
+     setNameUser(name);
+     setUserRole("Admin");
+   } else if (token && name !== "Admin") {
+     setNameUser(name);
+     setUserRole("user");
+   } else {
+     setNameUser("");
+     setUserRole("login");
+   }
+ }, [isAuthenticated]);
 
-
-
-  console.log(userRole);
+  // console.log(userRole);
 
   const { cartItems } = useContext(ShopContext);
   const totalItems = Object.values(cartItems).reduce((acc, curr) => acc + curr.quantity, 0);

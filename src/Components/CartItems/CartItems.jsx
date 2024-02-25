@@ -1,12 +1,26 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import { Link } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
+import { useAuth } from "../../Context/AuthContext";
 
 export default function CartItems() {
-  const { all_product, cartItems, toggleCheckbox, selectedItems, handleEditProduct, handleSizeChange } = useContext(ShopContext);
+  const { /* all_product,  */cartItems, toggleCheckbox, selectedItems, handleEditProduct, handleSizeChange } = useContext(ShopContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(null);
+  const [data, setData] = useState(null);
+
+
+  const {getCart} = useAuth()
+
+
+  useEffect(() => {
+      const  fecthData = async () => {
+         const dataProduct = await getCart()
+         setData(dataProduct)
+      }
+      fecthData()
+  },[getCart])
 
   const openModal = (product) => {
     setModalProduct(product);
@@ -49,7 +63,7 @@ export default function CartItems() {
             </tr>
           </thead>
           <tbody>
-            {all_product.map((product) => {
+            {data.map((product) => {
               const item = cartItems[product.id];
               if (item.quantity > 0) {
                 const sizes = item.sizes.join(", ");
