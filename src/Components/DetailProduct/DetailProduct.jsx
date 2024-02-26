@@ -115,16 +115,16 @@ export default function DetailProduct() {
               <div>
                 <h4>Quantity</h4>
                 <div className="quantity-container">
-                  <button className="btn-action-cart" onClick={handleIncrease}>
+                  <button className="btn-action-cart" onClick={handleDecrease}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
                     </svg>
                   </button>
                   <div className="quantity">{quantity}</div>
 
-                  <button className="btn-action-cart" onClick={handleDecrease}>
+                  <button className="btn-action-cart" onClick={handleIncrease}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                      <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
                     </svg>
                   </button>
                 </div>

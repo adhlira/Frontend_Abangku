@@ -1106,8 +1106,9 @@ hr {
 
 /* MODAL BOX EDIT */
 .modal-edit-item {
+  width: 500px;
   position: fixed;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
@@ -1120,8 +1121,8 @@ hr {
   text-align: center;
 }
 .modal-product-image {
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 200px;
+  max-height: 200px;
   margin-bottom: 10px;
 }
 
@@ -1130,6 +1131,13 @@ hr {
   display: flex;
   justify-content: center;
   gap: 15px;
+}
+
+.btn-group-modal {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
 }
 
 .modal-content select {
@@ -1143,18 +1151,16 @@ button.btn-disabled:hover {
   width: 30px;
   height: 30px;
   padding-top: 3px;
-  background-color: #a62c27;
+  background-color: #ffffff;
   border-radius: 5px;
   color: white;
-  border: 1px solid #a62c27;
-}
-button.btn-action-cart:hover,
-button.btn-close-action:hover {
-  background-color: #ea1d1d;
+  border: 1px solid #ff0101;
   cursor: pointer;
 }
-
-button.btn-close-action {
+.btn-action-cart svg {
+  color: #a62c27;
+}
+button.btn-action {
   width: 70px;
   height: 30px;
   color: white;
@@ -1162,6 +1168,20 @@ button.btn-close-action {
   border: 1px solid #a62c27;
   background-color: #a62c27;
   margin-top: 15px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+input.input-action {
+  width: 30px;
+  padding-left: 10px;
+  border-radius: 5px;
+  border: 1px solid #8c8c8c;
 }
 
 /* END MODAL BOX */

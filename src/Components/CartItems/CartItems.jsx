@@ -1,26 +1,59 @@
-import { useState, useContext, useEffect } from "react";
-import { ShopContext } from "../../Context/ShopContext";
+import { useState, /* useContext, */ useEffect } from "react";
+// import { ShopContext } from "../../Context/ShopContext";
 import { Link } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
 import { useAuth } from "../../Context/AuthContext";
 
 export default function CartItems() {
-  const { /* all_product,  */cartItems, toggleCheckbox, selectedItems, handleEditProduct, handleSizeChange } = useContext(ShopContext);
+  // const { /* cartItems, *//*  toggleCheckbox,  *//* selectedItems, */ /* handleEditProduct  *//* handleSizeChange  */ } = useContext(ShopContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+  const [sizes, setSizes] = useState([]); // State untuk menyimpan opsi ukuran produk
+  const [quantity, setQuantity] = useState("");
+  const { getCart, GetProductbyId } = useAuth();
 
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      setQuantity(1);
+    }
+  };
 
-  const {getCart} = useAuth()
+  console.log(quantity);
 
+  console.log(sizes);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const cartData = await getCart();
+        setData(cartData);
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+    fetchData();
+  }, [getCart]);
 
   useEffect(() => {
-      const  fecthData = async () => {
-         const dataProduct = await getCart()
-         setData(dataProduct)
+    // Fungsi untuk mengambil produk berdasarkan ID ketika modal dibuka
+    const fetchProductById = async () => {
+      if (modalProduct) {
+        try {
+          const product = await GetProductbyId(modalProduct.product_id); // Ambil produk berdasarkan ID
+          setSizes(product.ProductSize); // Set opsi ukuran dari produk yang diambil
+        } catch (error) {
+          console.error("Error fetching product by ID:", error);
+        }
       }
-      fecthData()
-  },[getCart])
+    };
+
+    fetchProductById();
+  }, [modalProduct, GetProductbyId]);
 
   const openModal = (product) => {
     setModalProduct(product);
@@ -31,20 +64,25 @@ export default function CartItems() {
     setIsModalOpen(false);
   };
 
-  const handleCheck = (itemId, size) => {
-    toggleCheckbox(itemId, size);
-  };
+  useEffect(() => {
+    if (modalProduct && modalProduct.quantity) {
+      setQuantity(modalProduct.quantity);
+    }
+  }, [modalProduct]);
 
-  const handleEdit = (itemId, size, action) => {
-    handleEditProduct(itemId, size, action);
-  };
+  // const handleCheck = (itemId, size) => {
+  //   toggleCheckbox(itemId, size);
+  // };
 
-  const handleSize = (itemId, newSize) => {
-    handleSizeChange(itemId, newSize);
-  };
+  // const handleEdit = (itemId, size, action) => {
+  //   handleEditProduct(itemId, size, action);
+  // };
 
+  // const handleSize = (itemId, newSize) => {
+  //   handleSizeChange(itemId, newSize);
+  // };
 
-  const anyItemChecked = Object.values(selectedItems).some((isChecked) => isChecked);
+  /* const anyItemChecked = Object.values(selectedItems).some((isChecked) => isChecked); */
 
   return (
     <div className="cartItems">
@@ -52,7 +90,7 @@ export default function CartItems() {
         <table>
           <thead>
             <tr>
-              <th></th>
+              {/* <th></th> */}
               <th>Product</th>
               <th className="product-name">Product Name</th>
               <th>Price</th>
@@ -63,35 +101,27 @@ export default function CartItems() {
             </tr>
           </thead>
           <tbody>
-            {data.map((product) => {
-              const item = cartItems[product.id];
-              if (item.quantity > 0) {
-                const sizes = item.sizes.join(", ");
-                const isChecked = selectedItems[`${product.id}_${sizes}`] || false;
-                return (
-                  <tr key={product.id}>
-                    <td>
-                      <input className="checkbox" type="checkbox" checked={isChecked} onChange={() => handleCheck(product.id, sizes)} />
-                    </td>
-                    <td>
-                      <img src={product.image} alt={product.name} className="carticon-product-icon" />
-                    </td>
-                    <td className="product-name">{product.name}</td>
-                    <td>${product.new_price}</td>
-                    <td>{item.quantity}</td>
-                    <td>{sizes}</td>
-                    <td>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="edit-modal" viewBox="0 0 16 16" onClick={() => openModal(product)}>
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                        <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                      </svg>
-                    </td>
-                    <td>${product.new_price * item.quantity}</td>
-                  </tr>
-                );
-              }
-              return null;
-            })}
+            {data.map((item, index) => (
+              <tr key={index}>
+                {/* <td>
+                  <input className="checkbox" type="checkbox" checked={selectedItems[item.id]} onChange={() => handleCheck(item.id, item.size)} />
+                </td> */}
+                <td>
+                  <img src={item.Product.ProductImage[0].image_url} alt={item.name} className="carticon-product-icon" />
+                </td>
+                <td className="product-name">{item.Product.name}</td>
+                <td>${(item.Product.price / 15700).toFixed(1)}</td>
+                <td>{item.quantity}</td>
+                <td>{item.Size.name}</td>
+                <td>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="edit-modal" viewBox="0 0 16 16" onClick={() => openModal(item)}>
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                  </svg>
+                </td>
+                <td>${(item.total_price / 15700).toFixed(1)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -99,36 +129,56 @@ export default function CartItems() {
       {isModalOpen && modalProduct && (
         <div className="modal-edit-item">
           <div className="modal-content">
-            <img src={modalProduct.image} alt={modalProduct.name} className="modal-product-image" />
-            <p>{modalProduct.name}</p>
+            <img src={modalProduct.Product.ProductImage[0].image_url} alt={modalProduct.Product.name} className="modal-product-image" />
+            <p>{modalProduct.Product.name}</p>
+            <div className="btn-size">
+              {sizes &&
+                sizes.map((size, index) => (
+                  <button key={index} value={size}>
+                    {size.Size.name}
+                  </button>
+                ))}
+            </div>
             <div className="modal-button-container">
-              <button onClick={() => handleEdit(modalProduct.id, cartItems[modalProduct.id]?.size, "increase")} className="btn-action-cart">
+              <button
+                onClick={() => {
+                  /*      handleEdit(modalProduct.id, modalProduct.size, "increase"); */
+                  handleDecrease(); // Panggil fungsi handleDecrease di sini jika diperlukan
+                }}
+                className="btn-action-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8" />
+                </svg>
+              </button>
+              <p>Quantity:</p>
+              <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="input-action"/>
+              <button
+                onClick={() => {
+                  /* handleEdit(modalProduct.id, modalProduct.size, "decrease"); */
+                  handleIncrease(); // Panggil fungsi handleIncrease di sini jika diperlukan
+                }}
+                className="btn-action-cart"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
                 </svg>
               </button>
-              <p>Quantity: {cartItems[modalProduct.id]?.quantity}</p>
-              <button onClick={() => handleEdit(modalProduct.id, cartItems[modalProduct.id]?.size, "decrease")} className="btn-action-cart">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
-                </svg>
+            </div>
+            <div className="btn-group-modal">
+              <button onClick={closeModal} className="btn-action">
+                Close
+              </button>
+              <button onClick={closeModal} className="btn-action">
+                Save
               </button>
             </div>
-            <select value={cartItems[modalProduct.id]?.size} onChange={(e) => handleSize(modalProduct.id, e.target.value)}>
-              {cartItems[modalProduct.id]?.sizes.map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-            <button onClick={closeModal} className="btn-close-action">Close</button>
           </div>
         </div>
       )}
 
       <div className="cartItems-down">
         <div className="cartItems-total">
-          {anyItemChecked ? (
+          {data.length > 0 ? (
             <button onClick={Scrollbar}>
               <Link to="/checkout" className="nav-link-checkout">
                 PROCEED TO CHECKOUT

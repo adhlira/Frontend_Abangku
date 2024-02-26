@@ -1,37 +1,56 @@
 import logo from "../Assets/logo.png";
 import { Link, NavLink } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
-import { ShopContext } from "../../Context/ShopContext";
+import { useState, useEffect } from "react";
+
 import InputComponent from "../Input/InputComponent";
 import { useAuth } from "../../Context/AuthContext";
 import { Scrollbar } from "../../helper/Scrollbar";
 
 export default function Navbar() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, getCart } = useAuth();
   const [nameUser, setNameUser] = useState("");
   const [navActive, setNavactive] = useState(false);
   const [burger, setBurger] = useState(false);
   const [userRole, setUserRole] = useState("");
- useEffect(() => {
-   const token = localStorage.getItem("token");
-   const name = localStorage.getItem("name");
+  const [cartIcon, setCartIcon] = useState("");
+  const [data, setData] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
 
-   if (token && name === "Admin") {
-     setNameUser(name);
-     setUserRole("Admin");
-   } else if (token && name !== "Admin") {
-     setNameUser(name);
-     setUserRole("user");
-   } else {
-     setNameUser("");
-     setUserRole("login");
-   }
- }, [isAuthenticated]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const cartData = await getCart();
+        setData(cartData);
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+    fetchData();
+  }, [getCart, data]); 
 
-  // console.log(userRole);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const name = localStorage.getItem("name");
 
-  const { cartItems } = useContext(ShopContext);
-  const totalItems = Object.values(cartItems).reduce((acc, curr) => acc + curr.quantity, 0);
+    if (token && name === "Admin") {
+      setNameUser(name);
+      setUserRole("Admin");
+      setCartIcon("cart");
+    } else if (token && name !== "Admin") {
+      setNameUser(name);
+      setUserRole("user");
+      setCartIcon("cart");
+    } else {
+      setNameUser("");
+      setUserRole("login");
+      setCartIcon("login");
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    const total = Object.values(data).reduce((acc, curr) => acc + curr.quantity, 0);
+    setTotalItems(total);
+  }, [data]); 
 
   const toggleNavActive = () => {
     setNavactive(!navActive);
@@ -77,7 +96,7 @@ export default function Navbar() {
               </svg>
             </NavLink>
 
-            <NavLink to="/cart" className="nav-link" onClick={Scrollbar}>
+            <NavLink to={`${cartIcon}`} className="nav-link" onClick={Scrollbar}>
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
               </svg>
