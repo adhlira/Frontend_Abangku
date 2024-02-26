@@ -8,7 +8,7 @@ const Item = (props) => {
   const USD = Number((new_price / 15700).toFixed(1));
   const desc = description.substring(0, 20);
   return (
-    <div className="item" onClick={Scrollbar}>
+    <div className="item " onClick={Scrollbar}>
       <Link to={`detail/${id}`} className="link-item">
         <img src={image} alt={name} />
         <p className="item-name">{name}</p>

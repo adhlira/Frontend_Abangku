@@ -1,12 +1,34 @@
-import { useContext, useState } from "react";
-import { ShopContext } from "../../Context/ShopContext";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
+import { useAuth } from "../../Context/AuthContext";
 
 export default function Checkout() {
-  const { selectedItems, all_product, getTotalAmount } = useContext(ShopContext);
   const [promo, setPromo] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [data, setData] = useState([]);
+  const { getCart } = useAuth();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const cartData = await getCart();
+        setData(cartData);
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+    fetchData();
+  }, [getCart]);
+
+  const getTotalAmount = () => {
+    // Logika untuk menghitung total harga produk
+    let total = 0;
+    data.forEach((item) => {
+      total += item.Product.price * item.quantity;
+    });
+    return (total/15700).toFixed(1);
+  };
 
   const handlePromo = () => {
     if (promo) {
@@ -17,6 +39,7 @@ export default function Checkout() {
       setDiscount(0.3);
     }
   };
+
   return (
     <div className="cartItems">
       <div className="cartItems-format-main">
@@ -32,26 +55,18 @@ export default function Checkout() {
             </tr>
           </thead>
           <tbody>
-            {all_product.map((product) => {
-              return Object.keys(selectedItems).map((key) => {
-                const item = selectedItems[key];
-                if (item.itemId === product.id) {
-                  return (
-                    <tr key={product.id}>
-                      <td>
-                        <img src={product.image} alt={product.name} className="carticon-product-icon" />
-                      </td>
-                      <td>{product.name}</td>
-                      <td>${product.new_price}</td>
-                      <td>{item.quantity}</td>
-                      <td>{item.size}</td>
-                      <td>${product.new_price * item.quantity}</td>
-                    </tr>
-                  );
-                }
-                return null;
-              });
-            })}
+            {data.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <img src={item.Product.ProductImage[0].image_url} alt={item.name} className="carticon-product-icon" />
+                </td>
+                <td className="product-name">{item.Product.name}</td>
+                <td>${(item.Product.price / 15700).toFixed(1)}</td>
+                <td>{item.quantity}</td>
+                <td>{item.Size.name}</td>
+                <td>${(item.total_price / 15700).toFixed(1)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -75,9 +90,9 @@ export default function Checkout() {
             </div>
           </div>
           <button onClick={Scrollbar}>
-            <Link to="/virtualAccount" className="nav-link-checkout ">
+           {/*  <Link to="/virtualAccount" className="nav-link-checkout "> */}
               Pay for Products
-            </Link>
+            {/* </Link> */}
           </button>
         </div>
         <div className="cartItems-promo-code">

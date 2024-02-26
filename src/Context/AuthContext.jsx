@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
   const [pageBanner, setBanner] = useState(null);
   const [filter, setCurrentFilter] = useState("");
   const [email, setEmail] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const endpoint = "http://localhost:5000";
 
   useEffect(() => {
@@ -138,10 +139,10 @@ const AuthProvider = ({ children }) => {
   const getCart = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`${endpoint}/cart`,{
+      const response = await axios.get(`${endpoint}/cart`, {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
       return response.data;
     } catch (error) {
@@ -150,15 +151,37 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const Checkout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`${endpoint}/checkout`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const Logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
     localStorage.removeItem("email");
     localStorage.removeItem("roleID");
+    localStorage.removeItem("isDarkMode");
   };
   const Banner = (Banner) => {
     setBanner(Banner);
   };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    localStorage.setItem("isDarkMode", !isDarkMode);
+  };
+
   const setFilter = (filter) => setCurrentFilter(filter);
 
   const values = {
@@ -178,6 +201,10 @@ const AuthProvider = ({ children }) => {
     // getRoleID,
     addToCart,
     getCart,
+    toggleDarkMode,
+    isDarkMode,
+    setIsDarkMode,
+    Checkout,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

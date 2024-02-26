@@ -1,15 +1,13 @@
-import { useState, /* useContext, */ useEffect } from "react";
-// import { ShopContext } from "../../Context/ShopContext";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
 import { useAuth } from "../../Context/AuthContext";
 
 export default function CartItems() {
-  // const { /* cartItems, *//*  toggleCheckbox,  *//* selectedItems, */ /* handleEditProduct  *//* handleSizeChange  */ } = useContext(ShopContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(null);
   const [data, setData] = useState([]);
-  const [sizes, setSizes] = useState([]); // State untuk menyimpan opsi ukuran produk
+  const [sizes, setSizes] = useState([]);
   const [quantity, setQuantity] = useState("");
   const { getCart, GetProductbyId } = useAuth();
 
@@ -40,12 +38,11 @@ export default function CartItems() {
   }, [getCart]);
 
   useEffect(() => {
-    // Fungsi untuk mengambil produk berdasarkan ID ketika modal dibuka
     const fetchProductById = async () => {
       if (modalProduct) {
         try {
-          const product = await GetProductbyId(modalProduct.product_id); // Ambil produk berdasarkan ID
-          setSizes(product.ProductSize); // Set opsi ukuran dari produk yang diambil
+          const product = await GetProductbyId(modalProduct.product_id);
+          setSizes(product.ProductSize);
         } catch (error) {
           console.error("Error fetching product by ID:", error);
         }
@@ -70,27 +67,12 @@ export default function CartItems() {
     }
   }, [modalProduct]);
 
-  // const handleCheck = (itemId, size) => {
-  //   toggleCheckbox(itemId, size);
-  // };
-
-  // const handleEdit = (itemId, size, action) => {
-  //   handleEditProduct(itemId, size, action);
-  // };
-
-  // const handleSize = (itemId, newSize) => {
-  //   handleSizeChange(itemId, newSize);
-  // };
-
-  /* const anyItemChecked = Object.values(selectedItems).some((isChecked) => isChecked); */
-
   return (
     <div className="cartItems">
       <div className="cartItems-format-main">
         <table>
           <thead>
             <tr>
-              {/* <th></th> */}
               <th>Product</th>
               <th className="product-name">Product Name</th>
               <th>Price</th>
@@ -103,9 +85,6 @@ export default function CartItems() {
           <tbody>
             {data.map((item, index) => (
               <tr key={index}>
-                {/* <td>
-                  <input className="checkbox" type="checkbox" checked={selectedItems[item.id]} onChange={() => handleCheck(item.id, item.size)} />
-                </td> */}
                 <td>
                   <img src={item.Product.ProductImage[0].image_url} alt={item.name} className="carticon-product-icon" />
                 </td>
@@ -142,20 +121,19 @@ export default function CartItems() {
             <div className="modal-button-container">
               <button
                 onClick={() => {
-                  /*      handleEdit(modalProduct.id, modalProduct.size, "increase"); */
-                  handleDecrease(); // Panggil fungsi handleDecrease di sini jika diperlukan
+                  handleDecrease();
                 }}
-                className="btn-action-cart">
+                className="btn-action-cart"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8" />
                 </svg>
               </button>
               <p>Quantity:</p>
-              <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="input-action"/>
+              <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="input-action" />
               <button
                 onClick={() => {
-                  /* handleEdit(modalProduct.id, modalProduct.size, "decrease"); */
-                  handleIncrease(); // Panggil fungsi handleIncrease di sini jika diperlukan
+                  handleIncrease();
                 }}
                 className="btn-action-cart"
               >
