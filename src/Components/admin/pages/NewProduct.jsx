@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import {
   Card,
   Container,
@@ -9,71 +8,83 @@ import {
   InputAdornment,
   Select,
   MenuItem,
-  FormControl,
+  Checkbox,
   Button,
   Box,
 } from "@mui/material";
+import ModalProduct from "../components/ModalProduct";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
-
 const NewProduct = () => {
-  const categories = ["Men", "Women", "Kid", "Family"];
-  const [category, setCategory] = React.useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [rating, setRating] = useState("");
+  const [category_id, setCategory_id] = useState("");
+  const [weight, setWeight] = useState("");
+  const [selectedSize, setSelectedSize] = useState({});
+  const [images, setImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const sizes = ["S", "M", "L", "XL", "XXL"];
 
-  const [formData, setFormData] = React.useState({
-    name: "",
-    description: "",
-    price: "",
-    category_id: "",
-    quantity: "",
-    rating: "",
-    image: null,
-  });
+  function handleSubmit(event) {
+    event.preventDefault();
 
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      photo: e.target.files[0],
-    });
-  };
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("quantity", quantity);
+    formData.append("rating", rating);
+    formData.append("category_id", category_id);
+    formData.append("weight", weight);
 
-  const handleProductChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "https://localhost:5000/product",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    // Append selected sizes indices
+    const selectedIndices = Object.keys(selectedSize)
+      .filter((size) => selectedSize[size]) // Filter out only selected sizes
+      .map((size) => sizes.indexOf(size) + 1); // Map selected size names to their indices starting from 1
+
+    const sizeJSONString = JSON.stringify(selectedIndices);
+
+    console.log(selectedIndices);
+
+    formData.append("size", sizeJSONString);
+    formData.append("images", images);
+    axios
+      .post("http://localhost:5000/product", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setShowModal(true);
         }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
-
-  const [selectedImage, setSelectedImage] = React.useState(null);
-  const [imageUrl, setImageUrl] = React.useState(null);
-
-  const handleImageChange = (e) => {
+      })
+      .catch((err) => {
+        if (err.response) {
+          // The request was made and the server responded with a status code that falls out of the range of 2xx
+          console.log("Response data:", err.response.data);
+          console.log("Response status:", err.response.status);
+          console.log("Response headers:", err.response.headers);
+        } else if (err.request) {
+          console.log("Request:", err.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log("Error:", err.message);
+        }
+        console.log("Error config:", err.config);
+      });
+  }
+  function handleImageChange(e) {
+    setImage(e.target.files[0]);
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -83,17 +94,28 @@ const NewProduct = () => {
       reader.readAsDataURL(file);
       setSelectedImage(file);
     }
-  };
+  }
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
     setImageUrl(null);
   };
 
+  const handleCheckboxChange = (size) => {
+    setSelectedSize((prev) => ({
+      ...prev,
+      [size]: !prev[size],
+    }));
+  };
+
   return (
-    <>
+    <React.Fragment>
       <Typography variant="h5">Create A New Product</Typography>
-      <form onSubmit={handleSubmit}>
+      <form
+        className="form"
+        onSubmit={handleSubmit}
+        action={<Link to="/login" />}
+      >
         <Container
           sx={{
             display: "flex",
@@ -104,85 +126,91 @@ const NewProduct = () => {
             overflow: "auto",
           }}
         >
-          {/* main card */}
           <Card variant="outlined" sx={{ flexGrow: 1, width: 620, padding: 4 }}>
             <Typography variant="h6">Product Information</Typography>
             <Divider sx={{ mb: 2 }} />
-            <Container sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography paragraph sx={{ mb: 1, padding: 0 }}>
-                Product Name
-              </Typography>
-              <TextField
-                sx={{ width: "100%", mb: 1 }}
-                id="outlined-basic"
-                placeholder="Name"
-                variant="outlined"
-              />
-              <div
-                style={{ display: "flex", flexDirection: "row", gap: "55px" }}
-              >
-                <div>
-                  <Typography paragraph sx={{ mb: 1, paddingInline: 0 }}>
-                    Price
-                  </Typography>
-                  <OutlinedInput
-                    sx={{ width: "32ch", mb: 1 }}
-                    variant="outlined"
-                    id="outlined-adornment-weight"
-                    startAdornment={
-                      <InputAdornment position="start">Rp.</InputAdornment>
-                    }
-                    aria-describedby="outlined-weight-helper-text"
-                  />
-                </div>
-                <div>
-                  <Typography paragraph sx={{ mb: 1, padding: 0 }}>
-                    Category
-                  </Typography>
-                  <FormControl>
-                    <Select
-                      labelId="select-category"
-                      onChange={handleChange}
-                      sx={{ width: "32ch", mb: 1 }}
-                      placeholder="Select Category"
-                    >
-                      {categories.map((category) => (
-                        <MenuItem key={category} value={category}>
-                          {category}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
+
+            <Typography paragraph sx={{ mb: 1, padding: 0 }}>
+              Product Name
+            </Typography>
+            <TextField
+              type="text"
+              variant="outlined"
+              color="secondary"
+              label="Name"
+              sx={{ mb: 1 }}
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              fullWidth
+              required
+            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <div>
+                <Typography paragraph sx={{ mb: 1, padding: 0 }}>
+                  Price
+                </Typography>
+                <OutlinedInput
+                  type="number"
+                  variant="outlined"
+                  color="secondary"
+                  startAdornment={
+                    <InputAdornment position="start">Rp.</InputAdornment>
+                  }
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price}
+                  fullWidth
+                  required
+                  sx={{ width: "32ch", mb: 1 }}
+                />
               </div>
-              <Container
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyItems: "space-between",
-                  padding: 0,
-                }}
-              ></Container>
-              <Typography paragraph sx={{ mb: 1, padding: 0 }}>
-                Description
-              </Typography>
-              <TextField
-                sx={{ width: "100%", mb: 1 }}
-                variant="filled"
-                placeholder="Description"
-                id="outlined-adornment-weight"
-                multiline
-                rows={4}
-                aria-describedby="outlined-weight-helper-text"
-              />
-            </Container>
-            {/* media section */}
+              <div>
+                <Typography paragraph sx={{ mb: 1, padding: 0 }}>
+                  Category
+                </Typography>
+                <Select
+                  sx={{ width: "32ch", mb: 1 }}
+                  placeholder="Select Category"
+                  defaultValue={"0"}
+                  onChange={(e) => setCategory_id(e.target.value)}
+                >
+                  <MenuItem value="0" disabled>
+                    Select Category
+                  </MenuItem>
+                  <MenuItem value="1">Men</MenuItem>
+                  <MenuItem value="2">Women</MenuItem>
+                  <MenuItem value="3">Kid</MenuItem>
+                  <MenuItem value="4">Family</MenuItem>
+                </Select>
+              </div>
+            </div>
+            <Typography paragraph sx={{ mb: 1, padding: 0 }}>
+              Product Description
+            </Typography>
+            <TextField
+              type="text"
+              variant="outlined"
+              color="secondary"
+              label="desc"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              fullWidth
+              multiline
+              rows={4}
+              required
+            />
+
             <Typography variant="h6" sx={{ mt: 2 }}>
               Media
             </Typography>
             <Divider sx={{ mb: 2 }} />
             <Typography paragraph sx={{ mb: 1, padding: 0 }}>
-              Upload Image
+              Product Image
             </Typography>
             <Container
               sx={{
@@ -205,20 +233,20 @@ const NewProduct = () => {
                 }}
               >
                 <input
-                  accept="image/*"
-                  id="select-image"
-                  multiple
                   type="file"
+                  accept="image/*"
                   onChange={handleImageChange}
                   hidden
-                  name="image"
+                  name="images"
+                  id="select-image"
+                  required
                 />
                 <label htmlFor="select-image">
                   <Button component="span">
                     {imageUrl ? (
                       <img
                         src={imageUrl}
-                        alt={selectedImage?.name}
+                        alt=""
                         style={{
                           width: "100%",
                           height: "100%",
@@ -238,61 +266,106 @@ const NewProduct = () => {
               )}
             </Container>
           </Card>
-          {/* side card */}
+
           <Card
             variant="outlined"
-            sx={{ flex: 2, width: 620, height: 384, padding: 2 }}
+            sx={{ flex: 2, width: 620, height: "fit-content", padding: 4 }}
           >
             <Typography variant="h6"> Product Status</Typography>
             <Divider sx={{ mb: 2 }} />
+            <TextField
+              type="number"
+              variant="outlined"
+              color="secondary"
+              label="Quantity"
+              onChange={(e) => setQuantity(e.target.value)}
+              value={quantity}
+              required
+              fullWidth
+              sx={{ mb: 4 }}
+            />
+            <TextField
+              type="number"
+              variant="outlined"
+              color="secondary"
+              label="Rating"
+              onChange={(e) => setRating(e.target.value)}
+              value={rating}
+              fullWidth
+              required
+              sx={{ mb: 4 }}
+            />
             <div>
-              <Typography paragraph sx={{ mb: 1, padding: 0 }}>
-                Stock
-              </Typography>
-              <TextField
-                sx={{ width: "100%", mb: 1 }}
-                id="outlined-basic"
-                placeholder="qty"
+              <Typography variant="h6">Product Weight</Typography>
+              <Divider sx={{ mb: 2 }} />
+              <OutlinedInput
                 type="number"
                 variant="outlined"
+                color="secondary"
+                endAdornment={
+                  <InputAdornment position="start">gr</InputAdornment>
+                }
+                onChange={(e) => setWeight(e.target.value)}
+                value={weight}
+                fullWidth
+                required
+                sx={{ mb: 1 }}
               />
-              <Typography paragraph sx={{ mb: 1, padding: 0 }}>
-                Rating
-              </Typography>
-              <TextField
-                sx={{ width: "100%", mb: 1 }}
-                id="outlined-basic"
-                type="number"
-                InputProps={{ inputProps: { min: 0, max: 5, step: 0.1 } }}
-                placeholder="Rating"
-                variant="outlined"
-              />
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "40px",
-                }}
-              >
-                <Link to="/admin/products" sx={{ width: "40%" }}>
-                  <Button variant="contained" sx={{ backgroundColor: "red" }}>
-                    Cancel
-                  </Button>
-                </Link>
-                <Button
-                  variant="contained"
-                  sx={{ backgroundColor: "green", width: "40%" }}
-                  onClick={handleSubmit}
+            </div>
+            <Typography variant="h6">Available Product Size</Typography>
+            <Divider sx={{ mb: 2 }} />
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              {sizes.map((size) => (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  key={size}
                 >
-                  Save
-                </Button>
-              </div>
+                  <Typography>{size}</Typography>
+                  <Checkbox
+                    
+                    checked={selectedSize[size]}
+                    onChange={() => handleCheckboxChange(size)}
+                  />
+                </div>
+              ))}
             </div>
           </Card>
         </Container>
+        <Divider sx={{ mt: 2 }} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Link to="/admin/products" sx={{ width: "40%" }}>
+            <Button variant="contained" sx={{ backgroundColor: "red", mt: 2 }}>
+              Cancel
+            </Button>
+          </Link>
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ mt: 2, backgroundColor: "green", width: "10%" }}
+          >
+            Save
+          </Button>
+          {showModal && (
+            <ModalProduct
+              onClose={() => {
+                setShowModal(false);
+                window.location.href = "/admin/products";
+              }}
+            />
+          )}
+        </div>
       </form>
-    </>
+    </React.Fragment>
   );
 };
 
