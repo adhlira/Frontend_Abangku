@@ -1,28 +1,37 @@
-import { ShopContext } from "../../Context/ShopContext";
-import { useContext } from "react";
-import { useSearch } from "../../Context/SearchContext";
+import { useAuth } from "../../Context/AuthContext";
+import { useEffect, useState } from "react";
 import ItemCategory from "../Item/ItemCategory";
-import Sidebar from "../Sidebar/Sidebar";
-import UrbanBanner from "../Assets/banner_urban.jpg";
-export default function Search() {
-  const { searchTerm } = useSearch();
-  const { all_product } = useContext(ShopContext);
 
-  const data = all_product.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+export default function Search() {
+  const [data, setData] = useState([]);
+  const { Search, term } = useAuth();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const products = await Search(term);
+        setData(products);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, [Search, term]);
+
   return (
     <>
-      <div className="banner">
-        <img src={UrbanBanner} alt="" />
-      </div>
-      <div className="main-container">
-        <Sidebar />
-        <div className="cloth-categoryr">
-          <h5 className="showing">
-            <span>{data.length} - </span> search results for product
-          </h5>
-          <div className="cloth-item-cetegory">
-            {data.length > 0 ? data.map((item, index) => <ItemCategory key={index} id={item.id} name={item.name} image={item.image} rating={item.rating} new_price={item.new_price} old_price={item.old_price} />) : <h2>Product Not Found</h2>}
-          </div>
+      <div className="cloth-category">
+        <h2>Search result Products</h2>
+        <h5 className="showing">
+          <span>Showing </span> {data.length} of the products
+        </h5>
+        <div className="cloth-item-cetegory">
+          {data.length > 0 ? (
+            data.map((item, index) => <ItemCategory key={index} id={item.id} name={item.name} image={item.ProductImage[0].image_url} rating={item.rating} new_price={item.price} description={item.description} />)
+          ) : (
+            <h2>Product Not Found</h2>
+          )}
         </div>
       </div>
     </>

@@ -1,26 +1,23 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { CreateStars } from "../Rating/Rating";
+import { CreateStars } from "../../helper/Rating";
+import {Scrollbar} from "../../helper/Scrollbar";
 
 const Item = (props) => {
-  const { id, image, name, new_price, old_price, rating } = props;
-
-  const handleClick = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
+  const { id, image, name, new_price, rating, description } = props;
+  const USD =  Number((new_price/15700).toFixed(1));
+ 
+  const  desc = description.substring(0, 40)
+  const Name = name.substring(0, 20)
   return (
-    <div className="item-category" onClick={handleClick}>
+    <div className="item-category" onClick={Scrollbar}>
       <Link to={`detail/${id}`} className="link-item">
         <img src={image} alt={name} />
-        <p>{name}</p>
+        <p className="item-name">{Name}</p>
+        <p className="desc">{desc}...</p>
         <div className="rating">{rating && CreateStars(rating)}</div>
         <div className="item-prices">
-          <div className="item-price-new">${new_price}</div>
-          <div className="item-price-old">${old_price}</div>
+          <div className="item-price-new">${USD}</div>
         </div>
       </Link>
     </div>
@@ -33,7 +30,7 @@ Item.propTypes = {
   name: PropTypes.string.isRequired,
   rating: PropTypes.number,
   new_price: PropTypes.number.isRequired,
-  old_price: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 export default Item;

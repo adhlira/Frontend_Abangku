@@ -45,7 +45,7 @@ export default function Footer() {
             </svg>
           </div>
           <p>&copy; 2024 Abangku.Co</p>
-          <p>About Abangku.Co | Privacy Policy | Terms and Conditions</p>
+          <p className="abt-footer">About Abangku.Co | Privacy Policy | Terms and Conditions</p>
         </div>
       </div>
     </>

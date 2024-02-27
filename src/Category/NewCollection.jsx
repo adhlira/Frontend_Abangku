@@ -1,13 +1,30 @@
 import Item from "../Components/Item/Item";
-import new_collect from "../Components/Assets/new_collections";
+import { useAuth } from "../Context/AuthContext";
+import { useEffect, useState } from "react";
 export default function NewCollection() {
+  const { Product } = useAuth();
+  const [data, setData] = useState([]);
+
+
+const newCollect = data.sort((a, b) => b.rating - a.rating).slice(0, 10)
+
+  useEffect(() => {
+    Product()
+      .then((products) => {
+        setData(products);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [Product]);
+
   return (
     <>
       <div className="cloth-container">
         <h2>NEW COLLECTIONS</h2>
         <div className="cloth-item">
-          {new_collect.map((item, index) => {
-            return <Item key={index} id={item.id} name={item.name.substring(0,40)} image={item.image} rating={item.rating} new_price={item.new_price} old_price={item.old_price} />;
+          {newCollect.map((item, index) => {
+             return <Item key={index} id={item.id} name={item.name} image={item.ProductImage[0].image_url} rating={item.rating} new_price={item.price} description={item.description} />;
           })}
         </div>
       </div>

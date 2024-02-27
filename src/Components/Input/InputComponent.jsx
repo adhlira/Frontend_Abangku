@@ -1,52 +1,58 @@
 import TextInput from "../../TextInput";
 import { useState } from "react";
-import { useSearch } from "../../Context/SearchContext";
 import { useNavigate } from "react-router-dom";
+import { Scrollbar } from "../../helper/Scrollbar";
+import { useAuth } from "../../Context/AuthContext";
+
 export default function InputComponent() {
-  const { updateSearchTerm } = useSearch();
+  const { Search } = useAuth();
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
   const handleInput = (e) => {
     const term = e.target.value;
-    setSearchInput(term);
+    setSearchInput(term.toLowerCase());
   };
 
-  const handleEnterKeyPress = (e, navigate) => {
+  const handleEnterKeyPress = (e) => {
     const searchInputValue = searchInput.trim();
 
     if (e.key === "Enter" && searchInputValue !== "") {
-      updateSearchTerm(searchInputValue);
-      localStorage.setItem("item", searchInputValue);
-      navigate("/search");
-      handleScroll()
+      Search(searchInputValue)
+        .then(() => {
+          localStorage.setItem("item", searchInputValue);
+          navigate("/search");
+          Scrollbar();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
+
   const handleClick = () => {
     if (searchInput.trim() !== "") {
       const searchInputValue = searchInput.trim();
-      updateSearchTerm(searchInputValue);
-      localStorage.setItem("item", searchInputValue);
-      navigate("/search");
+      Search(searchInputValue) 
+        .then(() => {
+          localStorage.setItem("item", searchInputValue);
+          navigate("/search");
+          Scrollbar();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
-
-  const handleScroll = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <>
       <div className="form-input">
-        <TextInput required={true} label="" placeholder="Search your cloth..." onChange={handleInput} onKeyDown={(e) => handleEnterKeyPress(e, navigate, handleScroll)} className="input" />
+        <TextInput required={true} label="" placeholder="Search your cloth..." onChange={handleInput} onKeyDown={(e) => handleEnterKeyPress(e, navigate, Scrollbar)} className="input" />
         <button
           className="btn-Search"
           onChange={handleInput}
           onClick={() => {
             handleClick(navigate);
-            handleScroll();
+            Scrollbar();
           }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
