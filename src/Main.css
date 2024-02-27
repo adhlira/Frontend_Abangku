@@ -497,6 +497,7 @@ next .cloth-container h2 {
   width: 60%;
   padding-top: 15px;
   padding-bottom: 35px;
+  padding-left: 20px;
 }
 .login-container h3 {
   margin-bottom: 10px;
@@ -603,6 +604,9 @@ next .cloth-container h2 {
   justify-content: center;
   align-items: center;
 }
+.p-quantity {
+  color: black;
+}
 .edit-modal,
 .checkbox {
   cursor: pointer;
@@ -664,7 +668,7 @@ next .cloth-container h2 {
   border: 0;
 }
 .cartItems-format-main {
-  width: 100%;
+  max-width: 100%;
   margin-top: 20px;
 }
 
@@ -797,6 +801,44 @@ hr {
   background-color: #ea1d1d;
 }
 /* CLOSE CARTITEMS */
+
+/* MODAL CHECKOT */
+
+.boxContainer-checkout {
+  background-color: white;
+  width: 550px;
+  height: 450px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border: 5px solid #a62c27;
+}
+.select-option {
+  display: flex;
+  gap: 15px;
+}
+.boxContainer-checkout h5 {
+  color: black;
+  margin-bottom: 5px;
+}
+.boxContainer-checkout select {
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.btn-checkout {
+  width: 300px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* CLOSE CHECKOUT */
+
 /* VIRTUAL-ACCOUNT */
 .container-VA {
   max-width: 1000px;
@@ -1133,6 +1175,9 @@ hr {
   justify-content: center;
   gap: 30px;
 }
+.btn-action {
+  cursor: pointer;
+}
 
 .modal-content select {
   margin-top: 10px;
@@ -1238,27 +1283,18 @@ input:checked + .slider:before {
 }
 
 .darkmode-toggle {
-  color: #a62c27;
   position: fixed;
   bottom: 70px;
   right: 20px;
   width: 30px;
   height: 30px;
-  cursor: pointer;
   z-index: 999;
 }
 .darkmode-toggle {
   rotate: 270deg;
 }
-
 .dark-mode {
   background-color: #1a1a1a;
   color: #ffffff;
 }
-
-.dark-mode .button {
-  background-color: #343a40;
-  color: #ffffff;
-}
-
 /* CloseDarkMode */

@@ -1,7 +1,6 @@
 import logo from "../Assets/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 import InputComponent from "../Input/InputComponent";
 import { useAuth } from "../../Context/AuthContext";
 import { Scrollbar } from "../../helper/Scrollbar";
@@ -26,7 +25,7 @@ export default function Navbar() {
       }
     };
     fetchData();
-  }, [getCart, data]); 
+  }, [getCart, data]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -50,7 +49,7 @@ export default function Navbar() {
   useEffect(() => {
     const total = Object.values(data).reduce((acc, curr) => acc + curr.quantity, 0);
     setTotalItems(total);
-  }, [data]); 
+  }, [data]);
 
   const toggleNavActive = () => {
     setNavactive(!navActive);
