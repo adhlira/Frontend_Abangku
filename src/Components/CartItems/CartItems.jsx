@@ -8,8 +8,10 @@ export default function CartItems() {
   const [modalProduct, setModalProduct] = useState(null);
   const [data, setData] = useState([]);
   const [sizes, setSizes] = useState([]);
-  const [quantity, setQuantity] = useState("");
-  const { getCart, GetProductbyId } = useAuth();
+  const { getCart, GetProductbyId, PutProduct, DeleteItemCart } = useAuth();
+  const [quantity, setQuantity] = useState(0);
+  const [sizesEvent, setSizesEvent] = useState("");
+  const [productId, setProductId] = useState(0);
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -22,9 +24,39 @@ export default function CartItems() {
     }
   };
 
-  console.log(quantity);
+  const handleIdSize = (sizeId) => {
+    setSizesEvent(sizeId);
+  };
 
-  console.log(sizes);
+const handleDelete = async (id) => {
+  try {
+    await DeleteItemCart(id);
+    const updatedCart = await getCart();
+    setData(updatedCart);
+  } catch (error) {
+    console.error("Error deleting item:", error);
+  }
+};
+
+
+
+
+  const handleSave = () => {
+    if (data.length > 0 && quantity !== "" && sizesEvent && productId !== 0 && modalProduct.id !== null) {
+      const fetchData = async () => {
+        try {
+          await PutProduct(quantity, sizesEvent, productId, modalProduct.id);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+      fetchData();
+      setIsModalOpen(false);
+    } else {
+      console.error("Error: Incomplete data");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,13 +67,14 @@ export default function CartItems() {
       }
     };
     fetchData();
-  }, [getCart]);
+  }, [getCart, data]);
 
   useEffect(() => {
     const fetchProductById = async () => {
       if (modalProduct) {
         try {
           const product = await GetProductbyId(modalProduct.product_id);
+          setProductId(product.id);
           setSizes(product.ProductSize);
         } catch (error) {
           console.error("Error fetching product by ID:", error);
@@ -55,6 +88,11 @@ export default function CartItems() {
   const openModal = (product) => {
     setModalProduct(product);
     setIsModalOpen(true);
+    setQuantity(product.quantity);
+    setProductId(product.id);
+    if (product && product.Size && product.Size.id) {
+      setSizesEvent(product.Size.id);
+    }
   };
 
   const closeModal = () => {
@@ -79,6 +117,7 @@ export default function CartItems() {
               <th>Quantity</th>
               <th>Size</th>
               <th>Edit</th>
+              <th>Delete</th>
               <th>Total</th>
             </tr>
           </thead>
@@ -93,9 +132,25 @@ export default function CartItems() {
                 <td>{item.quantity}</td>
                 <td>{item.Size.name}</td>
                 <td>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="edit-modal" viewBox="0 0 16 16" onClick={() => openModal(item)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="edit-modal"
+                    viewBox="0 0 16 16"
+                    onClick={() => {
+                      openModal(item);
+                      handleIdSize(item.size_id);
+                    }}>
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                     <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                  </svg>
+                </td>
+                <td>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" viewBox="0 0 16 16" className="edit-modal" onClick={() => handleDelete(item.id)}>
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                   </svg>
                 </td>
                 <td>${(item.total_price / 15700).toFixed(1)}</td>
@@ -113,7 +168,7 @@ export default function CartItems() {
             <div className="btn-size">
               {sizes &&
                 sizes.map((size, index) => (
-                  <button key={index} value={size}>
+                  <button key={index} onClick={() => handleIdSize(size.Size.id)}>
                     {size.Size.name}
                   </button>
                 ))}
@@ -129,8 +184,8 @@ export default function CartItems() {
                   <path d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8" />
                 </svg>
               </button>
-              <p>Quantity:</p>
-              <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="input-action" />
+              <p className="p-quantity">Quantity:</p>
+              <input type="number" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} className="input-action" />
               <button
                 onClick={() => {
                   handleIncrease();
@@ -138,7 +193,7 @@ export default function CartItems() {
                 className="btn-action-cart"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                  <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-.5 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
                 </svg>
               </button>
             </div>
@@ -146,7 +201,8 @@ export default function CartItems() {
               <button onClick={closeModal} className="btn-action">
                 Close
               </button>
-              <button onClick={closeModal} className="btn-action">
+
+              <button onClick={() => handleSave(quantity, sizesEvent, productId, modalProduct.id)} className="btn-action">
                 Save
               </button>
             </div>
