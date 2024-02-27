@@ -8,16 +8,57 @@ export default function Checkout() {
   const [discount, setDiscount] = useState(0);
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const { getCart, GetProvinces } = useAuth();
+  const { getCart, GetProvinces, GetOrigin, GetDestination } = useAuth();
   const [provinces, setProvinces] = useState([]);
-  // const [selectProvince, setSelectProvince] = useState("");
-
-  // const handleOrigin = (event) => {
-  //   setSelectProvince(event.target.value);
-  // };
-  
 
   console.log(provinces);
+  const [origin, setOrigin] = useState("");
+  const [dataOrigin, setDataOrigin] = useState([]);
+  const [destination, setDestination] = useState("");
+  const [dataDestination, setDataDestination] = useState([]);
+
+  const [resultCityOrigin, setResultCityOrigin] = useState("");
+
+  const [resultCityDestination, setResultCityDestination] = useState("");
+
+  console.log("ini hasil kota pilihan di origin", resultCityOrigin);
+  console.log("ini hasil kota pilihan di destination", resultCityDestination);
+
+  const handleOriginProvince = (event) => {
+    setOrigin(event.target.value);
+  };
+
+  const handleOriginCity = (event) => {
+    setResultCityOrigin(event.target.value);
+  };
+
+  const handleDestinationProvincie = (event) => {
+    setDestination(event.target.value);
+  };
+
+  const handleDestinationCity = (event) => {
+    setResultCityDestination(event.target.value);
+  };
+
+  useEffect(() => {
+    GetOrigin(origin)
+      .then((data) => {
+        setDataOrigin(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [GetOrigin, origin]);
+
+  useEffect(() => {
+    GetDestination(destination)
+      .then((data) => {
+        setDataDestination(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [GetDestination, destination]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +81,7 @@ export default function Checkout() {
         console.error("Error fetching provinces:", error);
       }
     };
+
     fetchProvinces();
   }, [GetProvinces]);
 
@@ -72,7 +114,7 @@ export default function Checkout() {
           <thead>
             <tr>
               <th>Product</th>
-              <th>Product Name</th>
+              <th className="product-name">Product Name</th>
               <th>Price</th>
               <th>Quantity</th>
               <th>Size</th>
@@ -130,30 +172,50 @@ export default function Checkout() {
               <div className="modalbox-option">
                 <h5>Origin</h5>
                 <div className="select-option">
+                  <select name="Origin-province" id="origin-province" onChange={handleOriginProvince}>
+                    <option value="">Select Provinces</option>
+                    {provinces.map((province) => (
+                      <option key={province.province_id} value={province.province_id}>
+                        {province.province}
+                      </option>
+                    ))}
+                  </select>
 
-                  <select name="Destination" id="destination">
+                  <select name="Origin-city" id="origin-city" onChange={handleOriginCity}>
                     <option value="">Select City</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                    <option value="option4">Option 4</option>
+                    {dataOrigin &&
+                      dataOrigin.map((city) => (
+                        <option key={city.city_id} value={city.city_id}>
+                          {city.city_name}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
-
-              <div className="modalbox-option">
-                <h5>Destination</h5>
-                <div className="select-option">
-
-                  <select name="Destination" id="destination">
-                    <option value="">Select City</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                    <option value="option4">Option 4</option>
-                  </select>
+              {
+                <div className="modalbox-option">
+                  <h5>Destination</h5>
+                  <div className="select-option">
+                    <select name="Destination-province" id="destination-province" onChange={handleDestinationProvincie}>
+                      <option value="">Select Provinces</option>
+                      {provinces.map((province) => (
+                        <option key={province.province_id} value={province.province_id}>
+                          {province.province}
+                        </option>
+                      ))}
+                    </select>
+                    <select name="Destination-city" id="destination-city" onChange={handleDestinationCity}>
+                      <option value="">Select City</option>
+                      {dataDestination &&
+                        dataDestination.map((city) => (
+                          <option key={city.city_id} value={city.city_id}>
+                            {city.city_name}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
+              }
               <div className="modalbox-option">
                 <h5>Courier</h5>
                 <select name="Courier" id="courier">
@@ -165,7 +227,7 @@ export default function Checkout() {
               </div>
 
               <div className="btn-checkout">
-                <button onClick={() => setShowModal(false)}>Cansel</button>
+                <button onClick={() => setShowModal(false)}>Cancel</button>
                 <button onClick={() => setShowModal(false)}>OK</button>
               </div>
             </div>

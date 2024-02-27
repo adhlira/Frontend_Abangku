@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
 import { useAuth } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function CartItems() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function CartItems() {
   const [quantity, setQuantity] = useState(0);
   const [sizesEvent, setSizesEvent] = useState("");
   const [productId, setProductId] = useState(0);
+  const navigate = useNavigate();
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -28,17 +30,19 @@ export default function CartItems() {
     setSizesEvent(sizeId);
   };
 
-const handleDelete = async (id) => {
+  const handleDelete = async (id) => {
   try {
     await DeleteItemCart(id);
     const updatedCart = await getCart();
     setData(updatedCart);
+
+    if (updatedCart.length === 0) {
+      navigate("/allproduct");
+    }
   } catch (error) {
     console.error("Error deleting item:", error);
   }
 };
-
-
 
 
   const handleSave = () => {
@@ -142,7 +146,8 @@ const handleDelete = async (id) => {
                     onClick={() => {
                       openModal(item);
                       handleIdSize(item.size_id);
-                    }}>
+                    }}
+                  >
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                     <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                   </svg>
