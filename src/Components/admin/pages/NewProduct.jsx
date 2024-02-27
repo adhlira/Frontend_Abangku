@@ -47,14 +47,10 @@ const NewProduct = () => {
 
     // Append selected sizes indices
     const selectedIndices = Object.keys(selectedSize)
-      .filter((size) => selectedSize[size]) // Filter out only selected sizes
-      .map((size) => sizes.indexOf(size) + 1); // Map selected size names to their indices starting from 1
+      .filter((size) => selectedSize[size])
+      .map((size) => sizes.indexOf(size) + 1);
 
-    const sizeJSONString = JSON.stringify(selectedIndices);
-
-    console.log(selectedIndices);
-
-    formData.append("size", sizeJSONString);
+    formData.append("size", JSON.stringify(selectedIndices));
     formData.append("images", images);
     axios
       .post("http://localhost:5000/product", formData, {
@@ -326,7 +322,6 @@ const NewProduct = () => {
                 >
                   <Typography>{size}</Typography>
                   <Checkbox
-                    
                     checked={selectedSize[size]}
                     onChange={() => handleCheckboxChange(size)}
                   />

@@ -29,8 +29,8 @@ import EditProduct from "./Components/admin/pages/EditProduct";
 import EditCategories from "./Components/admin/pages/EditCategories";
 import ProductMenu from "./Pages/ProductMenu";
 import AddCategories from "./Components/admin/pages/AddCategories";
-import AddProduct from "./Components/admin/pages/AddProduct";
 import ProfileUser from "./Pages/ProfileUser";
+import NewCoupon from "./Components/admin/pages/NewCoupon";
 
 const Router = createBrowserRouter([
   {
@@ -96,7 +96,7 @@ const Router = createBrowserRouter([
       { path: "products", Component: AllProducts },
       { path: "products/edit/:id", Component: EditProduct },
       { path: "new product", Component: NewProduct },
-      { path: "new coupon", Component: AddProduct },
+      { path: "new coupon", Component: NewCoupon },
       { path: "categories", Component: AllCategories },
       { path: "addCategories", Component: AddCategories },
       { path: "categories/edit/:id", Component: EditCategories },
