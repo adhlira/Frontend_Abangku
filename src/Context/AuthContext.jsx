@@ -55,18 +55,6 @@ const AuthProvider = ({ children }) => {
       }
     }
   };
-
-  /*  const getRoleID = async () => {
-    try {
-      const response = await axios.get(`${endpoint}/users?email=${email}`);
-      localStorage.setItem("roleID", response.data[0].role_id);
-      console.log(response.data)
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }; */
-
   const Register = async (fullname, username, password, email, phonenumber) => {
     try {
       await axios.post(`${endpoint}/register`, {
@@ -173,6 +161,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("email");
     localStorage.removeItem("roleID");
     localStorage.removeItem("isDarkMode");
+    localStorage.removeItem("item");
   };
   const Banner = (Banner) => {
     setBanner(Banner);
@@ -269,7 +258,6 @@ const AuthProvider = ({ children }) => {
     setFilter,
     filter,
     Logout,
-    // getRoleID,
     addToCart,
     getCart,
     toggleDarkMode,
@@ -279,8 +267,8 @@ const AuthProvider = ({ children }) => {
     PutProduct,
     DeleteItemCart,
     GetProvinces,
-     GetOrigin,
-     GetDestination,
+    GetOrigin,
+    GetDestination,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
