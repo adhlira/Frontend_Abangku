@@ -17,12 +17,19 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useParams, Link } from "react-router-dom";
-import { ModalEditProduct } from "../components/ModalProduct";
+import {
+  ModalConfirmDelete,
+  ModalEditProduct,
+  ModalDeleteProduct,
+} from "../components/ModalProduct";
 
 function EditProduct() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [images, setImage] = useState(null);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const [category, setCategory] = useState([]);
   const [selectedSize, setSelectedSize] = useState({});
@@ -44,6 +51,11 @@ function EditProduct() {
       setSelectedImage(file);
     }
   }
+
+  const handleDeleteClick = (productId) => {
+    setProductIdToDelete(productId);
+    setShowDeleteModal(true);
+  };
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
@@ -75,6 +87,23 @@ function EditProduct() {
     .map((size) => sizes.indexOf(size) + 1);
 
   const sizeJSONString = JSON.stringify(selectedIndices);
+
+  const handleYesClick = async () => {
+    try {
+      await axios
+        .delete(`http://localhost:5000/product/${productIdToDelete}`)
+        .then((res) => {
+          console.log(productIdToDelete);
+          console.log(res);
+          if (res.status === 200) {
+            setShowDeleteModal(false);
+            setShowSuccessModal(true);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleCheckboxChange = (size) => {
     setSelectedSize((prev) => ({
@@ -122,7 +151,7 @@ function EditProduct() {
         mb={3}
       >
         <Typography variant="h5">Edit Product</Typography>
-        <Button>
+        <Button onClick={() => handleDeleteClick(product?.id)}>
           <DeleteForeverIcon sx={{ fontSize: 36, color: "red" }} />
         </Button>
       </Stack>
@@ -380,6 +409,20 @@ function EditProduct() {
           )}
         </div>
       </form>
+      {showDeleteModal && (
+        <ModalConfirmDelete
+          onClose={() => setShowDeleteModal(false)}
+          onYesClick={handleYesClick}
+        />
+      )}
+      {showSuccessModal && (
+        <ModalDeleteProduct
+          onClose={() => {
+            setShowSuccessModal(false);
+            window.location.href = "/admin/products";
+          }}
+        />
+      )}
     </div>
   );
 }

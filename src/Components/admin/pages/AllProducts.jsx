@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import {
   TableRow,
   Button,
@@ -16,10 +15,19 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BigContainer from "../components/BigContainer";
+import { ModalConfirmDelete, ModalDeleteProduct } from "../components/ModalProduct";
 
 const AllProducts = () => {
   const [useProduct, setProduct] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
+
+  const handleDeleteClick = (productId) => {
+    setProductIdToDelete(productId); // Set the ID of the product to delete
+    setShowDeleteModal(true); // Show the delete confirmation modal
+  };
 
   useEffect(() => {
     // Simulate a delay to see the skeleton
@@ -47,6 +55,22 @@ const AllProducts = () => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+  const handleYesClick = async () => {
+    try {
+      await axios
+        .delete(`http://localhost:5000/product/${productIdToDelete}`)
+        .then((res) => {
+          console.log(productIdToDelete);
+          console.log(res);
+          if (res.status === 200) {
+            setShowDeleteModal(false);
+            setShowSuccessModal(true);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -55,13 +79,13 @@ const AllProducts = () => {
 
   const headCells = [
     { id: "id", label: "ID", align: "left" },
-    { id: "name", label: "Name", align: "left", },
-    { id: "price", label: "Price", align: "left", },
-    { id: "quantity", label: "Quantity" , align: "left",},
+    { id: "name", label: "Name", align: "left" },
+    { id: "price", label: "Price", align: "left" },
+    { id: "quantity", label: "Quantity", align: "left" },
     { id: "description", label: "Description", align: "center" },
-    { id: "category", label: "Category", align: "left", },
-    { id: "rating", label: "Rating" , align: "center",},
-    { id: "action", label: "Action", align: "center", },
+    { id: "category", label: "Category", align: "left" },
+    { id: "rating", label: "Rating", align: "center" },
+    { id: "action", label: "Action", align: "center" },
   ];
 
   return (
@@ -86,7 +110,7 @@ const AllProducts = () => {
         </Button>
       </div>
 
-      {loading ? ( // Show skeleton if loading
+      {useProduct.length === 0 || loading ? ( // Show skeleton if loading
         <BigContainer>
           <Skeleton animation="wave" variant="text" sx={{ fontSize: "5rem" }} />
           <Skeleton
@@ -106,7 +130,11 @@ const AllProducts = () => {
                     <TableCell
                       key={cell.id}
                       align={cell.align}
-                      style={{  fontWeight: "bold", fontSize: "16px", backgroundColor: "#f5f5f5" }}
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                        backgroundColor: "#f5f5f5",
+                      }}
                     >
                       {cell.label}
                     </TableCell>
@@ -120,18 +148,24 @@ const AllProducts = () => {
                     <TableRow key={index}>
                       <TableCell>{item.id}</TableCell>
                       <TableCell sx={{ width: "250px" }}>{item.name}</TableCell>
-                      <TableCell sx={{ width: "150px" }}>{item.price}</TableCell>
-                      <TableCell >{item.quantity}</TableCell>
-                      <TableCell sx={{ maxWidth: "400px" }}>{item.description}</TableCell>
+                      <TableCell sx={{ width: "150px" }}>
+                        {item.price}
+                      </TableCell>
+                      <TableCell>{item.quantity}</TableCell>
+                      <TableCell sx={{ maxWidth: "400px" }}>
+                        {item.description}
+                      </TableCell>
                       <TableCell>{item.Category.name}</TableCell>
                       <TableCell>{item.rating}</TableCell>
-                      <TableCell align="center" width={40}> 
+                      <TableCell align="center" width={40}>
                         <Link to={`edit/${item.id}`} style={{ color: "black" }}>
-                          <EditIcon sx={{ fontSize: "24px"}} />
+                          <EditIcon sx={{ fontSize: "24px" }} />
                         </Link>
-                        <Link to={`delete/${item.id}`} style={{ color: "red" }}>
-                          <DeleteForeverIcon sx={{ fontSize: "24px", marginTop: "10px"}} />
-                        </Link>
+                        <div onClick={() => handleDeleteClick(item.id)}>
+                          <DeleteForeverIcon
+                            sx={{ fontSize: "24px", marginTop: "10px" }}
+                          />
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -147,6 +181,21 @@ const AllProducts = () => {
             />
           </Table>
         </BigContainer>
+      )}
+      {showDeleteModal && (
+        <ModalConfirmDelete
+          onClose={() => setShowDeleteModal(false)}
+          onYesClick={handleYesClick}
+        />
+      )}
+
+      { showSuccessModal &&  (
+        <ModalDeleteProduct
+          onClose={() => {
+            setShowSuccessModal(false)
+            window.location.reload()
+          }}
+        />
       )}
     </>
   );
