@@ -28,7 +28,7 @@ function EditProduct() {
   const [selectedSize, setSelectedSize] = useState({});
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const { id } = useParams();
-  const end_point = "http://localhost:5000/product";
+  const end_point = "/api/product";
   const url = `${end_point}/${id}`;
   const [product, setProduct] = useState(null);
 
@@ -65,7 +65,7 @@ function EditProduct() {
   }, [url]); // Include url in the dependency array to re-run effect when it changes
 
   useEffect(() => {
-    axios.get("http://localhost:5000/category").then((response) => {
+    axios.get("http:///api//category").then((response) => {
       setCategory(response.data);
     });
   }, []);
@@ -98,7 +98,7 @@ function EditProduct() {
     formData.append("images", images);
 
     axios
-      .put(`http://localhost:5000/product/${id}`, formData, {
+      .put(`http:///api//product/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

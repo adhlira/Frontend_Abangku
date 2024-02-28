@@ -9,7 +9,7 @@ const EditCategories = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const end_point = "http://localhost:5000/category";
+  const end_point = "/api/category";
   const url = `${end_point}/${id}`;
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const EditCategories = () => {
 
   const sendDataToBackend = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/category/${id}`, {
+      const response = await axios.put(`/api/category/${id}`, {
         name: category.name,
       });
       console.log("Respon dari server:", response.data);
@@ -38,15 +38,35 @@ const EditCategories = () => {
         <Typography paragraph sx={{ mb: 1, padding: 0 }}>
           Category Name
         </Typography>
-        <Input value={category.name} sx={{ width: "100%", mb: 1 }} id="outlined-basic" placeholder="Name" variant="outlined" onChange={(e) => setCategory({ ...category, name: e.target.value })}></Input>
+        <Input
+          value={category.name}
+          sx={{ width: "100%", mb: 1 }}
+          id="outlined-basic"
+          placeholder="Name"
+          variant="outlined"
+          onChange={(e) => setCategory({ ...category, name: e.target.value })}
+        ></Input>
 
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "40px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "40px",
+          }}
+        >
           <Link to={"/admin/Categories"}>
-            <Button variant="contained" sx={{ backgroundColor: "red", width: "40%" }}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "red", width: "40%" }}
+            >
               Cancel
             </Button>
           </Link>
-          <Button onClick={sendDataToBackend} variant="contained" sx={{ backgroundColor: "green", width: "40%" }}>
+          <Button
+            onClick={sendDataToBackend}
+            variant="contained"
+            sx={{ backgroundColor: "green", width: "40%" }}
+          >
             Save
           </Button>
         </div>

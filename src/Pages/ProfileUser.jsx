@@ -11,12 +11,14 @@ import axios from "axios";
 const ProfileUser = () => {
   const [user, setUser] = useState({});
   const token = localStorage.getItem("token");
-  const endPoint = "http://localhost:5000/user";
+  const endPoint = "/api/user";
 
   useEffect(() => {
-    axios.get(endPoint, { headers: { Authorization: `Bearer ${token}` } }).then((response) => {
-      setUser(response.data);
-    });
+    axios
+      .get(endPoint, { headers: { Authorization: `Bearer ${token}` } })
+      .then((response) => {
+        setUser(response.data);
+      });
   }, {});
   console.log(user);
 
@@ -70,7 +72,7 @@ const ProfileUser = () => {
               <td>{user.gender}</td>
             </tr>
           </table>
-          <Link to={'/edit_user'}>
+          <Link to={"/edit_user"}>
             <button>Edit</button>
           </Link>
           <Outlet />

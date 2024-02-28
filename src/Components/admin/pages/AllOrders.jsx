@@ -7,7 +7,7 @@ import BigContainer from "../components/BigContainer";
 const AllOrders = () => {
   const [useOrder, setOrder] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/order").then((response) => {
+    axios.get("/api/order").then((response) => {
       setOrder(response.data);
     });
   }, []);
@@ -15,7 +15,9 @@ const AllOrders = () => {
     <div>
       <h3>All Orders</h3>
       <BigContainer>
-        <TableHead sx={{ width: "100%", padding: "10px", alignContent: "center" }}>
+        <TableHead
+          sx={{ width: "100%", padding: "10px", alignContent: "center" }}
+        >
           <tr>
             <th>Order ID</th>
             <th>Customer</th>

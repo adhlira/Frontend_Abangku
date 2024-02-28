@@ -29,7 +29,7 @@ const AllProducts = () => {
 
     // Fetch product data
     axios
-      .get("http://localhost:5000/product")
+      .get("/api/product")
       .then((response) => {
         setProduct(response.data);
       })

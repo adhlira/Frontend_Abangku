@@ -53,7 +53,7 @@ const NewProduct = () => {
     formData.append("size", JSON.stringify(selectedIndices));
     formData.append("images", images);
     axios
-      .post("http://localhost:5000/product", formData, {
+      .post("http:///api/product", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

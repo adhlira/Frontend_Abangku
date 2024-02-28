@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [order, setOrder] = useState("");
-  const endpoint = "http://localhost:5000";
+  const endpoint = "/api";
 
   useEffect(() => {
     if (localStorage.getItem("item", term) !== "null") {
@@ -94,7 +94,9 @@ const AuthProvider = ({ children }) => {
 
   const Search = async (searchTerm) => {
     try {
-      const response = await axios.get(`${endpoint}/product?name=${searchTerm}`);
+      const response = await axios.get(
+        `${endpoint}/product?name=${searchTerm}`
+      );
       console.log(response.data);
       setTerms(searchTerm);
       return response.data;
@@ -227,7 +229,7 @@ const AuthProvider = ({ children }) => {
 
   const GetProvinces = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/provinces");
+      const response = await axios.get("/api/provinces");
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -238,7 +240,7 @@ const AuthProvider = ({ children }) => {
 
   const GetOrigin = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/cities/${id}`);
+      const response = await axios.get(`/api/cities/${id}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -248,7 +250,7 @@ const AuthProvider = ({ children }) => {
 
   const GetDestination = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/cities/${id}`);
+      const response = await axios.get(`/api/cities/${id}`);
 
       return response.data;
     } catch (error) {

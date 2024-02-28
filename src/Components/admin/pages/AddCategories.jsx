@@ -16,7 +16,7 @@ const AddCategories = () => {
 
   const addCategory = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/category`, {
+      const response = await axios.post(`/api/category`, {
         name: category.name,
       });
       console.log("Respon dari server:", response.data);

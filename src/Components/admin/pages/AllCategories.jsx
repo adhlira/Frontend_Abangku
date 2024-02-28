@@ -24,7 +24,7 @@ const AllCategories = () => {
       setLoading(false); // Set loading to false after 3 seconds
     }, 2000);
 
-    axios.get("http://localhost:5000/category").then((response) => {
+    axios.get("/api/category").then((response) => {
       setCategory(response.data);
     });
     return () => clearTimeout(timer);
@@ -40,7 +40,7 @@ const AllCategories = () => {
       return; // Batal menghapus jika pengguna membatalkan konfirmasi
     }
     try {
-      await axios.delete(`http://localhost:5000/category/${categoryId}`);
+      await axios.delete(`/api/category/${categoryId}`);
 
       window.location.reload();
     } catch (error) {
