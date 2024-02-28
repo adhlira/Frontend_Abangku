@@ -122,6 +122,9 @@
   .login-container button {
     width: 90%;
   }
+  .table-invoice {
+    width: 700px;
+  }
 }
 
 @media screen and (max-width: 430px) {
@@ -346,5 +349,8 @@
   }
   .boxContainer-checkout select {
     width: 130px;
+  }
+  .table-invoice {
+    width: 350px;
   }
 }

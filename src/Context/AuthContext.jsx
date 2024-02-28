@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
   const [filter, setCurrentFilter] = useState("");
   const [email, setEmail] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [order, setOrder] = useState("");
   const endpoint = "http://localhost:5000";
 
   useEffect(() => {
@@ -132,7 +133,7 @@ const AuthProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.error(error);
@@ -140,18 +141,31 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const Checkout = async () => {
+  const CheckOutItem = async (origin, destination, courier, discount) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`${endpoint}/checkout`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        `${endpoint}/checkout`,
+        {
+          origin: origin,
+          destination: destination,
+          courier: courier,
+          discount: discount,
         },
-      });
-      // console.log(response.data);
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setOrder(response.data.order);
+      localStorage.setItem("order", response.data.order);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 
@@ -225,20 +239,21 @@ const AuthProvider = ({ children }) => {
   const GetOrigin = async (id) => {
     try {
       const response = await axios.get(`http://localhost:5000/cities/${id}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 
   const GetDestination = async (id) => {
     try {
       const response = await axios.get(`http://localhost:5000/cities/${id}`);
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 
@@ -263,12 +278,13 @@ const AuthProvider = ({ children }) => {
     toggleDarkMode,
     isDarkMode,
     setIsDarkMode,
-    Checkout,
     PutProduct,
     DeleteItemCart,
     GetProvinces,
     GetOrigin,
     GetDestination,
+    CheckOutItem,
+    order,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
