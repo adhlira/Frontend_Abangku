@@ -6,6 +6,7 @@ import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
 import ModalSucces from "../ModalBox/ModalSucces";
+import formatRupiah from "../../helper/Rupiah";
 
 export default function DetailProduct() {
   const { GetProductbyId, isAuthenticated, addToCart } = useAuth();
@@ -101,7 +102,7 @@ export default function DetailProduct() {
                 {product.rating} {CreateStars(product.rating)}
               </div>
               <div className="item-prices">
-                <div className="item-price-new">${(product.price / 15700).toFixed(1)}</div>
+                <div className="item-price-new">IDR {formatRupiah(product.price)}</div>
               </div>
               <h4>Select Size</h4>
               <div className="btn-size">

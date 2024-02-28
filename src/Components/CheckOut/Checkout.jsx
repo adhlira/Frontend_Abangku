@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Scrollbar } from "../../helper/Scrollbar";
 import { useAuth } from "../../Context/AuthContext";
 import { Link } from "react-router-dom";
+import formatRupiah from "../../helper/Rupiah";
 export default function Checkout() {
   const [promo, setPromo] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -79,7 +80,7 @@ export default function Checkout() {
     data.forEach((item) => {
       total += item.Product.price * item.quantity;
     });
-    return (total / 15700).toFixed(1);
+    return total
   };
 
   const handlePromo = () => {
@@ -129,10 +130,10 @@ export default function Checkout() {
                   <img src={item.Product.ProductImage[0].image_url} alt={item.name} className="carticon-product-icon" />
                 </td>
                 <td className="product-name">{item.Product.name}</td>
-                <td>${(item.Product.price / 15700).toFixed(1)}</td>
+                <td>IDR {formatRupiah(item.Product.price)}</td>
                 <td>{item.quantity}</td>
                 <td>{item.Size.name}</td>
-                <td>${(item.total_price / 15700).toFixed(1)}</td>
+                <td>IDR {formatRupiah(item.total_price)}</td>
               </tr>
             ))}
           </tbody>
@@ -154,7 +155,7 @@ export default function Checkout() {
             <hr />
             <div className="cartItems-total-item">
               <h3>Total</h3>
-              <h3>${(getTotalAmount() - getTotalAmount() * discount).toFixed(2)}</h3>
+              <h3>IDR {formatRupiah((getTotalAmount() - getTotalAmount() * discount))}</h3>
             </div>
           </div>
           <button
@@ -215,7 +216,6 @@ export default function Checkout() {
                 <button onClick={() => setShowModal(false)}>Cancel</button>
                 {destination === "" || resultCityDestination === "" || courier === "" ? (
                   <button disabled className="btn-disabled">
-                    {" "}
                     Checkout
                   </button>
                 ) : (

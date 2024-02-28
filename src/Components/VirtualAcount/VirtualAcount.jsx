@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
 import InformationSect from "../InformationSect/InformationSect";
-import { useAuth } from "../../Context/AuthContext";
+import formatRupiah from "../../helper/Rupiah";
 
-export default function VirtualAcount() {
-  const { order } = useAuth();
-  const [detailOrder, setDetailOrder] = useState("");
+export default function VirtualAccount() {
+  const [Datainvoice, setInvoice] = useState("");
+  const [Datatotal, setTotal] = useState("");
+  const [Datashipment, setShipment] = useState("");
 
   useEffect(() => {
-    if (order !== detailOrder) {
-      setDetailOrder(order);
-    }
-  }, [order, detailOrder]);
+    const invoice = localStorage.getItem("invoice");
+    const total = localStorage.getItem("total");
+    const shipment = localStorage.getItem("shipment");
+
+    setInvoice(invoice);
+    setTotal(total);
+    setShipment(shipment);
+  }, []);
 
   return (
     <>
@@ -22,14 +27,14 @@ export default function VirtualAcount() {
                 <th>Invoice</th>
                 <th>Total</th>
                 <th>Shipping Cost</th>
-                <th>payment</th>
+                <th>Payment</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{detailOrder?.invoice}</td>
-                <td>${(detailOrder?.total / 15700).toFixed(1)}</td>
-                <td>${(detailOrder?.shipment_fee / 15700).toFixed(1)}</td>
+                <td>{Datainvoice}</td>
+                <td>IDR {formatRupiah(Datatotal)}</td>
+                <td>IDR {formatRupiah(Datashipment)}</td>
                 <td>
                   <button className="btn-payment">PAYMENT</button>
                 </td>

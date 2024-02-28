@@ -1,14 +1,13 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { CreateStars } from "../../helper/Rating";
-import {Scrollbar} from "../../helper/Scrollbar";
+import { Scrollbar } from "../../helper/Scrollbar";
+import formatRupiah from "../../helper/Rupiah";
 
 const Item = (props) => {
   const { id, image, name, new_price, rating, description } = props;
-  const USD =  Number((new_price/15700).toFixed(1));
- 
-  const  desc = description.substring(0, 40)
-  const Name = name.substring(0, 20)
+  const desc = description.substring(0, 40);
+  const Name = name.substring(0, 20);
   return (
     <div className="item-category" onClick={Scrollbar}>
       <Link to={`detail/${id}`} className="link-item">
@@ -17,7 +16,7 @@ const Item = (props) => {
         <p className="desc">{desc}...</p>
         <div className="rating">{rating && CreateStars(rating)}</div>
         <div className="item-prices">
-          <div className="item-price-new">${USD}</div>
+          <div className="item-price-new">IDR {formatRupiah(new_price)}</div>
         </div>
       </Link>
     </div>

@@ -160,7 +160,9 @@ const AuthProvider = ({ children }) => {
       );
 
       setOrder(response.data.order);
-      localStorage.setItem("order", response.data.order);
+      localStorage.setItem("invoice", response.data.order?.invoice);
+      localStorage.setItem("total", response.data.order?.total);
+      localStorage.setItem("shipment", response.data.order?.shipment_fee);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -176,6 +178,10 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("roleID");
     localStorage.removeItem("isDarkMode");
     localStorage.removeItem("item");
+    localStorage.removeItem("invoice");
+    localStorage.removeItem("total");
+    localStorage.removeItem("shipment");
+
   };
   const Banner = (Banner) => {
     setBanner(Banner);
