@@ -31,6 +31,8 @@ import AddCategories from "./Components/admin/pages/AddCategories";
 import ProfileUser from "./Pages/ProfileUser";
 
 
+import EditUser from "./Pages/EditUser";
+
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -103,6 +105,7 @@ const Router = createBrowserRouter([
     ],
   },
   { path: "/user", Component: ProfileUser },
+  { path: "/edit_user", Component: EditUser },
 ]);
 
 export default Router;
