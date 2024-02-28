@@ -12,7 +12,7 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import ModalProduct from "../components/ModalProduct";
+import { ModalProduct } from "../components/ModalProduct";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";

@@ -13,11 +13,11 @@ import {
   Checkbox,
   Stack,
 } from "@mui/material";
-import ModalProduct from "../components/ModalProduct";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useParams, Link } from "react-router-dom";
+import { ModalEditProduct } from "../components/ModalProduct";
 
 function EditProduct() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -104,7 +104,9 @@ function EditProduct() {
         },
       })
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          setShowModal(true);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -183,11 +185,8 @@ function EditProduct() {
                 <Select
                   sx={{ width: "32ch", mb: 1 }}
                   placeholder="Select Category"
-                  defaultValue={
-                    product?.category_id ? String(product?.category_id) : ""
-                  }
                   onChange={(e) =>
-                    setProduct({ ...product, category: e.target.value })
+                    setProduct({ ...product, category_id: e.target.value })
                   }
                 >
                   {category.map((cat) => (
@@ -372,7 +371,7 @@ function EditProduct() {
             Save
           </Button>
           {showModal && (
-            <ModalProduct
+            <ModalEditProduct
               onClose={() => {
                 setShowModal(false);
                 window.location.href = "/admin/products";

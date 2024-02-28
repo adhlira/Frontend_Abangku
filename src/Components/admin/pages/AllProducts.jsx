@@ -11,6 +11,8 @@ import {
   TableContainer,
 } from "@mui/material";
 import axios from "axios";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BigContainer from "../components/BigContainer";
@@ -52,14 +54,14 @@ const AllProducts = () => {
   };
 
   const headCells = [
-    { id: "id", label: "ID", align: "left", width: "5" },
-    { id: "name", label: "Name" },
-    { id: "price", label: "Price" },
-    { id: "quantity", label: "Quantity" },
-    { id: "description", label: "Description" },
-    { id: "category", label: "Category" },
-    { id: "rating", label: "Rating" },
-    { id: "action", label: "Action" },
+    { id: "id", label: "ID", align: "left" },
+    { id: "name", label: "Name", align: "left", },
+    { id: "price", label: "Price", align: "left", },
+    { id: "quantity", label: "Quantity" , align: "left",},
+    { id: "description", label: "Description", align: "center" },
+    { id: "category", label: "Category", align: "left", },
+    { id: "rating", label: "Rating" , align: "center",},
+    { id: "action", label: "Action", align: "center", },
   ];
 
   return (
@@ -86,8 +88,13 @@ const AllProducts = () => {
 
       {loading ? ( // Show skeleton if loading
         <BigContainer>
-          <Skeleton animation="wave"  variant="text" sx={{ fontSize: "5rem" }} />
-          <Skeleton animation="wave"  variant="rectangular" width="100%" height={350} />
+          <Skeleton animation="wave" variant="text" sx={{ fontSize: "5rem" }} />
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={350}
+          />
         </BigContainer>
       ) : (
         <BigContainer className="product-table-container">
@@ -99,7 +106,7 @@ const AllProducts = () => {
                     <TableCell
                       key={cell.id}
                       align={cell.align}
-                      style={{ width: cell.width, fontWeight: "bold" }}
+                      style={{  fontWeight: "bold", fontSize: "16px", backgroundColor: "#f5f5f5" }}
                     >
                       {cell.label}
                     </TableCell>
@@ -112,19 +119,19 @@ const AllProducts = () => {
                   .map((item, index) => (
                     <TableRow key={index}>
                       <TableCell>{item.id}</TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.price}</TableCell>
-                      <TableCell>{item.quantity}</TableCell>
-                      <TableCell>{item.description}</TableCell>
+                      <TableCell sx={{ width: "250px" }}>{item.name}</TableCell>
+                      <TableCell sx={{ width: "150px" }}>{item.price}</TableCell>
+                      <TableCell >{item.quantity}</TableCell>
+                      <TableCell sx={{ maxWidth: "400px" }}>{item.description}</TableCell>
                       <TableCell>{item.Category.name}</TableCell>
                       <TableCell>{item.rating}</TableCell>
-                      <TableCell>
-                        <button>
-                          <Link to={`edit/${item.id}`}>Edit</Link>
-                        </button>
-                        <button>
-                          <Link to={`hapus/${item.id}`}>Hapus</Link>
-                        </button>
+                      <TableCell align="center" width={40}> 
+                        <Link to={`edit/${item.id}`} style={{ color: "black" }}>
+                          <EditIcon sx={{ fontSize: "24px"}} />
+                        </Link>
+                        <Link to={`delete/${item.id}`} style={{ color: "red" }}>
+                          <DeleteForeverIcon sx={{ fontSize: "24px", marginTop: "10px"}} />
+                        </Link>
                       </TableCell>
                     </TableRow>
                   ))}
