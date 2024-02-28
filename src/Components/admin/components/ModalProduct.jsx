@@ -22,7 +22,7 @@ const style = {
   alignItems: "center",
 };
 
-function ModalProduct({ onClose }) {
+export function ModalProduct({ onClose }) {
   return (
     <div>
       <Modal
@@ -61,4 +61,39 @@ function ModalProduct({ onClose }) {
   );
 }
 
-export default ModalProduct;
+export function ModalEditProduct({ onClose }) {
+  return (
+    <div>
+      <Modal
+        open={true} // Always open when rendered
+        onClose={onClose} // Call the onClose function passed from the parent to close the modal
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h5" component="h2">
+              Product Successfully Updated!
+            </Typography>
+            <CheckCircleIcon
+              sx={{ color: "green", fontSize: 80, alignSelf: "center" }}
+            />
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Your product has been successfully updated! Go check it out on the
+              products page. Click outside to close.
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
+  );
+}
+
+
