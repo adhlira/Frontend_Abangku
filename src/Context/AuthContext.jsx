@@ -55,18 +55,6 @@ const AuthProvider = ({ children }) => {
       }
     }
   };
-
-  /*  const getRoleID = async () => {
-    try {
-      const response = await axios.get(`${endpoint}/users?email=${email}`);
-      localStorage.setItem("roleID", response.data[0].role_id);
-      console.log(response.data)
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }; */
-
   const Register = async (fullname, username, password, email, phonenumber) => {
     try {
       await axios.post(`${endpoint}/register`, {
@@ -173,6 +161,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("email");
     localStorage.removeItem("roleID");
     localStorage.removeItem("isDarkMode");
+    localStorage.removeItem("item");
   };
   const Banner = (Banner) => {
     setBanner(Banner);
@@ -207,51 +196,51 @@ const AuthProvider = ({ children }) => {
     }
   };
 
- const DeleteItemCart = async (id) => {
-   try {
-     const token = localStorage.getItem("token");
-     const response = await axios.delete(`${endpoint}/cart/${id}`, {
-       headers: {
-         Authorization: `Bearer ${token}`,
-       },
-     });
-     console.log("Cart deleted:", response.data.message);
-     return response.data;
-   } catch (error) {
-     console.error("Error deleting cart:", error);
-   }
- };
+  const DeleteItemCart = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(`${endpoint}/cart/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Cart deleted:", response.data.message);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting cart:", error);
+    }
+  };
 
+  const GetProvinces = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/provinces");
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching provinces:", error);
+      throw error;
+    }
+  };
 
-  // const GetProvinces = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:5000/provinces");
-  //     console.log(response.data);
-  //     return response.data;
-  //   }catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  const GetOrigin = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/cities/${id}`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // const GetOrigin = async (id) => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:5000/cities/${id}`);
-  //     console.log(response.data);
-  //     return response.data;
-  //   }catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  //   const GetDestination = async (id) => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:5000/cities/${id}`);
-  //       console.log(response.data);
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  const GetDestination = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/cities/${id}`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const setFilter = (filter) => setCurrentFilter(filter);
 
@@ -269,7 +258,6 @@ const AuthProvider = ({ children }) => {
     setFilter,
     filter,
     Logout,
-    // getRoleID,
     addToCart,
     getCart,
     toggleDarkMode,
@@ -278,9 +266,9 @@ const AuthProvider = ({ children }) => {
     Checkout,
     PutProduct,
     DeleteItemCart,
-    /*    GetProvinces, */
-    // GetOrigin,
-    // GetDestination,
+    GetProvinces,
+    GetOrigin,
+    GetDestination,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

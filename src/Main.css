@@ -149,9 +149,20 @@ nav {
 #form-login span:hover {
   color: #ea1d1d;
 }
+
 .nav-link h5 {
   font-weight: 500;
   transition: ease-in-out 0.2s;
+}
+.visible-box {
+  position: relative;
+}
+
+.eye {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 70px;
 }
 .nav-link img {
   width: 30px;
