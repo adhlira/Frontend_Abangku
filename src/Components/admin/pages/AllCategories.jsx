@@ -132,22 +132,22 @@ const AllCategories = () => {
                     <TableCell style={{ width: "10%" }}>Action</TableCell>
                   </TableRow>
                 </TableHead>
-                <tbody style={{ width: "100%" }}>
+                <TableBody style={{ width: "100%" }}>
                   {useCategory.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.id}</td>
-                      <td>{item.name}</td>
-                      <td>
+                    <TableRow key={index}>
+                      <TableCell>{item.id}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>
                         <button>
                           <Link to={`edit/${item.id}`}>Edit</Link>
                         </button>
                         <button onClick={() => handleDeleteCategory(item.id)}>
                           Hapus
                         </button>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
+                </TableBody>
               </Table>
             </div>
           )}
