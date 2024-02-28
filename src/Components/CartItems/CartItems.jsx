@@ -132,7 +132,7 @@ export default function CartItems() {
                   <img src={item.Product.ProductImage[0].image_url} alt={item.name} className="carticon-product-icon" />
                 </td>
                 <td className="product-name">{item.Product.name}</td>
-                <td>${formatRupiah(item.Product.price)}</td>
+                <td>IDR {formatRupiah(item.Product.price)}</td>
                 <td>{item.quantity}</td>
                 <td>{item.Size.name}</td>
                 <td>

@@ -29,8 +29,7 @@ import EditCategories from "./Components/admin/pages/EditCategories";
 import ProductMenu from "./Pages/ProductMenu";
 import AddCategories from "./Components/admin/pages/AddCategories";
 import ProfileUser from "./Pages/ProfileUser";
-
-
+import ThanksPage from "./Components/ThanksPage/ThanksPage";
 import EditUser from "./Pages/EditUser";
 
 const Router = createBrowserRouter([
@@ -67,11 +66,19 @@ const Router = createBrowserRouter([
     ],
   },
   {
+    path: "/Thanks",
+    Component: ThanksPage,
+  },
+  {
     path: "",
     children: [
       { path: "*", Component: PageNotFound },
       { path: "/", Component: Product },
     ],
+  },
+  {
+    path: "/Thanks",
+    children: [{ path: "/Thanks", Component: ThanksPage }],
   },
   {
     path: "",

@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [order, setOrder] = useState("");
+  const [or, setOr] = useState("");
   const endpoint = "http://localhost:5000";
 
   useEffect(() => {
@@ -163,7 +164,10 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("invoice", response.data.order?.invoice);
       localStorage.setItem("total", response.data.order?.total);
       localStorage.setItem("shipment", response.data.order?.shipment_fee);
-      console.log(response.data);
+      localStorage.setItem("orderID", response.data.order?.id);
+      localStorage.setItem("payment", response.data.order?.status);
+      setOr(response.data.order);
+      console.log(response.data.order);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -181,7 +185,8 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("invoice");
     localStorage.removeItem("total");
     localStorage.removeItem("shipment");
-
+    localStorage.removeItem("payment");
+    localStorage.removeItem("orderID");
   };
   const Banner = (Banner) => {
     setBanner(Banner);
@@ -263,6 +268,28 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const Pay = async (orderid) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${endpoint}/pay`,
+        {
+          order_id: orderid,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const setFilter = (filter) => setCurrentFilter(filter);
 
   const values = {
@@ -291,6 +318,8 @@ const AuthProvider = ({ children }) => {
     GetDestination,
     CheckOutItem,
     order,
+    or,
+    Pay,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
