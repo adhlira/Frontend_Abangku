@@ -1,37 +1,26 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
 import { useAuth } from "../../Context/AuthContext";
-
+import { Link } from "react-router-dom";
 export default function Checkout() {
   const [promo, setPromo] = useState("");
   const [discount, setDiscount] = useState(0);
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const { getCart, GetProvinces, GetOrigin, GetDestination } = useAuth();
+  const { getCart, GetProvinces, GetOrigin, GetDestination, CheckOutItem } = useAuth();
   const [provinces, setProvinces] = useState([]);
+  const [discourtItem, setDiscourtItem] = useState(null);
+  const [courier, setCourir] = useState("");
 
-  console.log(provinces);
-  const [origin, setOrigin] = useState("");
   const [dataOrigin, setDataOrigin] = useState([]);
   const [destination, setDestination] = useState("");
   const [dataDestination, setDataDestination] = useState([]);
 
-  const [resultCityOrigin, setResultCityOrigin] = useState("");
-
   const [resultCityDestination, setResultCityDestination] = useState("");
 
-  console.log("ini hasil kota pilihan di origin", resultCityOrigin);
-  console.log("ini hasil kota pilihan di destination", resultCityDestination);
-
-  const handleOriginProvince = (event) => {
-    setOrigin(event.target.value);
+  const handleCourier = (event) => {
+    setCourir(event.target.value);
   };
-
-  const handleOriginCity = (event) => {
-    setResultCityOrigin(event.target.value);
-  };
-
   const handleDestinationProvincie = (event) => {
     setDestination(event.target.value);
   };
@@ -41,14 +30,14 @@ export default function Checkout() {
   };
 
   useEffect(() => {
-    GetOrigin(origin)
+    GetOrigin(5)
       .then((data) => {
         setDataOrigin(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [GetOrigin, origin]);
+  }, [GetOrigin]);
 
   useEffect(() => {
     GetDestination(destination)
@@ -97,14 +86,26 @@ export default function Checkout() {
     if (promo) {
       setPromo("");
       setDiscount(0);
+      setDiscourtItem(1);
     } else {
       setPromo("Store Discounts 30%");
       setDiscount(0.3);
+      setDiscourtItem(0.7);
     }
   };
 
   const handleCheckout = () => {
     setShowModal(true);
+  };
+
+  const handleCheckoutAndCloseModal = async () => {
+    try {
+      await CheckOutItem(dataOrigin[4]?.city_id, resultCityDestination, courier, discourtItem);
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    } finally {
+      setShowModal(false);
+    }
   };
 
   return (
@@ -162,7 +163,7 @@ export default function Checkout() {
               handleCheckout();
             }}
           >
-            Pay for Products
+            PROCEED TO CHECKOUT
           </button>
         </div>
         {showModal && (
@@ -172,24 +173,8 @@ export default function Checkout() {
               <div className="modalbox-option">
                 <h5>Origin</h5>
                 <div className="select-option">
-                  <select name="Origin-province" id="origin-province" onChange={handleOriginProvince}>
-                    <option value="">Select Provinces</option>
-                    {provinces.map((province) => (
-                      <option key={province.province_id} value={province.province_id}>
-                        {province.province}
-                      </option>
-                    ))}
-                  </select>
-
-                  <select name="Origin-city" id="origin-city" onChange={handleOriginCity}>
-                    <option value="">Select City</option>
-                    {dataOrigin &&
-                      dataOrigin.map((city) => (
-                        <option key={city.city_id} value={city.city_id}>
-                          {city.city_name}
-                        </option>
-                      ))}
-                  </select>
+                  <input type="text" name="origin" id="origin" value={provinces[4]?.province} placeholder={provinces[4]?.province} readOnly />
+                  <input type="text" name="destination" id="destination" value={dataOrigin[4]?.city_name} placeholder={dataOrigin[4]?.city_name} readOnly />
                 </div>
               </div>
               {
@@ -218,7 +203,7 @@ export default function Checkout() {
               }
               <div className="modalbox-option">
                 <h5>Courier</h5>
-                <select name="Courier" id="courier">
+                <select name="Courier" id="courier" onChange={handleCourier}>
                   <option value="">Select Courier</option>
                   <option value="jne">JNE</option>
                   <option value="tiki">Tiki</option>
@@ -228,7 +213,16 @@ export default function Checkout() {
 
               <div className="btn-checkout">
                 <button onClick={() => setShowModal(false)}>Cancel</button>
-                <button onClick={() => setShowModal(false)}>OK</button>
+                {destination === "" || resultCityDestination === "" || courier === "" ? (
+                  <button disabled className="btn-disabled">
+                    {" "}
+                    Checkout
+                  </button>
+                ) : (
+                  <Link to="/virtualAccount" className="nav-link-checkout">
+                    <button onClick={handleCheckoutAndCloseModal}>Checkout</button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -237,7 +231,7 @@ export default function Checkout() {
         <div className="cartItems-promo-code">
           <p>If you have a promo code, Enter it here</p>
           <div className="cartItems-promobox">
-            <input type="text" placeholder={promo ? promo : "promo code"} />
+            <input type="text" placeholder={promo ? promo : "promo code"} readOnly />
             <button onClick={() => handlePromo()}>Store Discounts 30%</button>
           </div>
         </div>

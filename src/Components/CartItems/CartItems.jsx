@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Scrollbar } from "../../helper/Scrollbar";
 import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -31,19 +31,18 @@ export default function CartItems() {
   };
 
   const handleDelete = async (id) => {
-  try {
-    await DeleteItemCart(id);
-    const updatedCart = await getCart();
-    setData(updatedCart);
+    try {
+      await DeleteItemCart(id);
+      const updatedCart = await getCart();
+      setData(updatedCart);
 
-    if (updatedCart.length === 0) {
-      navigate("/allproduct");
+      if (updatedCart.length === 0) {
+        navigate("/allproduct");
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
     }
-  } catch (error) {
-    console.error("Error deleting item:", error);
-  }
-};
-
+  };
 
   const handleSave = () => {
     if (data.length > 0 && quantity !== "" && sizesEvent && productId !== 0 && modalProduct.id !== null) {
@@ -220,12 +219,12 @@ export default function CartItems() {
           {data.length > 0 ? (
             <button onClick={Scrollbar}>
               <Link to="/checkout" className="nav-link-checkout">
-                PROCEED TO CHECKOUT
+                PROCESS FOR DELIVERY
               </Link>
             </button>
           ) : (
             <button disabled className="btn-disabled">
-              <span>PROCEED TO CHECKOUT</span>
+              <span>PROCESS FOR DELIVERY</span>
             </button>
           )}
         </div>

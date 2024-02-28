@@ -831,6 +831,14 @@ hr {
   display: flex;
   gap: 15px;
 }
+.select-option input {
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  border: #7a7a7a 0.5px solid;
+  padding-left: 5px;
+}
+
 .boxContainer-checkout h5 {
   color: black;
   margin-bottom: 5px;
@@ -846,6 +854,32 @@ hr {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
+}
+.table-invoice {
+  margin-top: 50px;
+  width: 900px;
+}
+.btn-payment {
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #a62c27;
+  border-radius: 1px solid #a62c27;
+  color: white;
+  cursor: pointer;
+}
+.btn-payment:hover {
+  background-color: #ea1d1d;
+}
+.btn-checkout button {
+  display: flex;
+  justify-content: center;
+}
+.nav-link-checkout {
+  text-decoration: none;
+}
+.btn-disable:hover {
+  background-color: #a62c27;
 }
 
 /* CLOSE CHECKOUT */
