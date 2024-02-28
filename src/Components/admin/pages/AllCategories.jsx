@@ -1,22 +1,40 @@
 /* eslint-disable no-unused-vars */
-import { TableHead, Button } from "@mui/material";
+import {
+  TableHead,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableContainer,
+  Container,
+  Skeleton,
+  Divider,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import BigContainer from "../components/BigContainer";
 
 const AllCategories = () => {
   const [useCategory, setCategory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false); // Set loading to false after 3 seconds
+    }, 2000);
+
     axios.get("http://localhost:5000/category").then((response) => {
       setCategory(response.data);
     });
+    return () => clearTimeout(timer);
   }, []);
 
   const handleDeleteCategory = async (categoryId) => {
     // Konfirmasi sebelum menghapus
-    const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus kategori ini ?`);
+    const confirmDelete = window.confirm(
+      `Apakah Anda yakin ingin menghapus kategori ini ?`
+    );
 
     if (!confirmDelete) {
       return; // Batal menghapus jika pengguna membatalkan konfirmasi
@@ -31,37 +49,110 @@ const AllCategories = () => {
   };
   return (
     <>
-      <div className="header-product" style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
+      <div
+        className="header-product"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "20px",
+        }}
+      >
         <h3>All Categories</h3>
         <Button variant="contained">
-          <Link to="/admin/addCategories" className="nav-link" style={{ color: "white" }}>
+          <Link
+            to="/admin/addCategories"
+            className="nav-link"
+            style={{ color: "white" }}
+          >
             Add Categories
           </Link>
         </Button>
       </div>
-      <BigContainer>
-        <TableHead sx={{ minWidth: "500px" }}>
-          <tbody>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Action</th>
-            </tr>
-            {useCategory.map((item, index) => (
-              <tr key={index}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>
-                  <button>
-                    <Link to={`edit/${item.id}`}>Edit</Link>
-                  </button>
-                  <button onClick={() => handleDeleteCategory(item.id)}>Hapus</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </TableHead>
-      </BigContainer>
+
+      <Container
+        className="category-container"
+        sx={{
+          minWidth: 450,
+          backgroundColor: "white",
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: "10px",
+          paddingRight: "10px",
+          justifyContent: "center",
+        }}
+      >
+        <TableContainer sx={{ alignItems: "center", padding: "24px" }}>
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "24px",
+                justifyContent: "center",
+              }}
+            >
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                height={64}
+                sx={{ width: "80%", marginBottom: "10px" }}
+              />
+
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                height={350}
+                sx={{ width: "80%" }}
+              />
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "24px",
+                justifyContent: "center",
+              }}
+            >
+              <Table sx={{ width: "80%" }}>
+                <TableHead
+                  sx={{
+                    width: "100%",
+                    padding: "10px",
+                    alignContent: "center",
+                  }}
+                >
+                  <TableRow>
+                    <TableCell style={{ width: "10%" }}>ID</TableCell>
+                    <TableCell style={{ width: "80%", textAlign: "center" }}>
+                      Name
+                    </TableCell>
+                    <TableCell style={{ width: "10%" }}>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <tbody style={{ width: "100%" }}>
+                  {useCategory.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.id}</td>
+                      <td>{item.name}</td>
+                      <td>
+                        <button>
+                          <Link to={`edit/${item.id}`}>Edit</Link>
+                        </button>
+                        <button onClick={() => handleDeleteCategory(item.id)}>
+                          Hapus
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
+        </TableContainer>
+      </Container>
     </>
   );
 };

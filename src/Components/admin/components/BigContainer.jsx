@@ -13,6 +13,7 @@ const BigContainer = ({ children }) => {
           borderRadius: "10px",
           p: 2,
           borderColor: "#E9E9EA",
+          alignItems: 'center'
         }}
       >
                 {children}

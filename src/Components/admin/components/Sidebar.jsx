@@ -15,8 +15,8 @@ import MailIcon from "@mui/icons-material/Mail";
 const drawerWidth = 240;
 
 export default function Sidebar() {
-  const sidemenu = ["Dashboard", "New Product", "New Coupon"];
-  const sidemenu2 = ["Products", "Categories", "Collection"];
+  const sidemenu = ["Dashboard", "New Product"];
+  const sidemenu2 = ["Products", "Categories"];
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
