@@ -22,7 +22,6 @@ import AdminLayout from "./Components/admin/AdminLayout";
 import Dashboard from "./Components/admin/pages/Dashboard";
 import NewProduct from "./Components/admin/pages/NewProduct";
 import AllCategories from "./Components/admin/pages/AllCategories";
-import Collection from "./Components/admin/pages/Collection";
 import AllOrder from "./Components/admin/pages/AllOrders";
 import AllProducts from "./Components/admin/pages/AllProducts";
 import EditProduct from "./Components/admin/pages/EditProduct";
@@ -30,7 +29,7 @@ import EditCategories from "./Components/admin/pages/EditCategories";
 import ProductMenu from "./Pages/ProductMenu";
 import AddCategories from "./Components/admin/pages/AddCategories";
 import ProfileUser from "./Pages/ProfileUser";
-import NewCoupon from "./Components/admin/pages/NewCoupon";
+
 
 const Router = createBrowserRouter([
   {
@@ -96,12 +95,10 @@ const Router = createBrowserRouter([
       { path: "products", Component: AllProducts },
       { path: "products/edit/:id", Component: EditProduct },
       { path: "new product", Component: NewProduct },
-      { path: "new coupon", Component: NewCoupon },
       { path: "categories", Component: AllCategories },
       { path: "addCategories", Component: AddCategories },
       { path: "categories/edit/:id", Component: EditCategories },
       { path: "attributes", Component: AllCategories },
-      { path: "collection", Component: Collection },
       { path: "order", Component: AllOrder },
     ],
   },
