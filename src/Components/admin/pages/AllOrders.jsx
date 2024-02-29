@@ -1,4 +1,4 @@
-import { TableHead, Button } from "@mui/material";
+import { TableHead, TableRow, Skeleton, TableCell } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -15,38 +15,37 @@ const AllOrders = () => {
     <div>
       <h3>All Orders</h3>
       <BigContainer>
-        <TableHead sx={{ width: "100%", padding: "10px", alignContent: "center" }}>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Order Date</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
+        <TableHead
+          sx={{ width: "100%", padding: "10px", alignContent: "center" }}
+        >
+          <TableRow>
+            <TableCell>Order ID</TableCell>
+            <TableCell>Customer</TableCell>
+            <TableCell>Order Date</TableCell>
+            <TableCell>Total</TableCell>
+            <TableCell>Status</TableCell>
+          </TableRow>
         </TableHead>
-        <tbody>
-          {useOrder.map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.customer}</td>
-              <td>{order.order_date}</td>
-              <td>{order.total}</td>
-              <td>{order.status}</td>
-              <td>
-                <Button variant="contained">
-                  <Link
-                    to={`/admin/order/${order.id}`}
-                    className="nav-link"
-                    style={{ color: "white" }}
-                  >
-                    Detail
-                  </Link>
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        {setOrder.length !== 0 ? (
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            width="40%"
+            height={350}
+          />
+        ) : (
+          <tbody>
+            {useOrder.map((order) => (
+              <tr key={order.id}>
+                <td>{order.id}</td>
+                <td>{order.customer}</td>
+                <td>{order.order_date}</td>
+                <td>{order.total}</td>
+                <td>{order.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        )}
       </BigContainer>
     </div>
   );
