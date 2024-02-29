@@ -160,12 +160,16 @@ const AuthProvider = ({ children }) => {
         }
       );
 
-      setOrder(response.data.order);
+      setOrder(response.data.order?.id);
+      await Pay(response.data.order?.id);
+  
+
       localStorage.setItem("invoice", response.data.order?.invoice);
       localStorage.setItem("total", response.data.order?.total);
       localStorage.setItem("shipment", response.data.order?.shipment_fee);
       localStorage.setItem("orderID", response.data.order?.id);
       localStorage.setItem("payment", response.data.order?.status);
+
       setOr(response.data.order);
       console.log(response.data.order);
       return response.data;
@@ -187,6 +191,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("shipment");
     localStorage.removeItem("payment");
     localStorage.removeItem("orderID");
+    localStorage.removeItem("paymentUrl");
   };
   const Banner = (Banner) => {
     setBanner(Banner);
@@ -268,27 +273,34 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const Pay = async (orderid) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${endpoint}/pay`,
-        {
-          order_id: orderid,
+const Pay = async (orderID) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      `${endpoint}/pay`,
+      {
+        order_id: orderID,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      }
+    );
 
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
+    const redirectUrl = response.data.data.redirect_url;
+    console.log("Redirect URL:", redirectUrl);
+
+
+    localStorage.setItem("paymentUrl", redirectUrl);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
   const setFilter = (filter) => setCurrentFilter(filter);
 

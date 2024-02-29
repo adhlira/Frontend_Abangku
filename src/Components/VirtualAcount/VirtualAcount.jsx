@@ -9,7 +9,8 @@ export default function VirtualAccount() {
   const [Datashipment, setShipment] = useState("");
   const [DatapayStatus, setPayStatus] = useState("");
   const [orderID, setOrderID] = useState("");
-  const { or, Pay } = useAuth();
+  const [url, setUrl] = useState("");
+  const { or, /* Pay  */} = useAuth();
 
   const order = Number(orderID);
   console.log(order);
@@ -20,6 +21,8 @@ export default function VirtualAccount() {
     const payStatus = localStorage.getItem("payment");
     const shipment = localStorage.getItem("shipment");
     const orderID = localStorage.getItem("orderID");
+    const paymentUrl = localStorage.getItem("paymentUrl");
+    setUrl(paymentUrl);
     setInvoice(invoice);
     setTotal(total);
     setPayStatus(payStatus);
@@ -29,10 +32,7 @@ export default function VirtualAccount() {
 
   const handlePayment = async () => {
     try {
-      const response = await Pay(order);
-      console.log(response);
-      // Redirect to the payment page after the payment process is completed
-      window.location.href = "https://app.sandbox.midtrans.com/snap/v3/redirection/da705b91-45dd-4c24-9a29-05ff3e744f49";
+      window.location.href = `${url}`;
     } catch (error) {
       console.log(error);
     }

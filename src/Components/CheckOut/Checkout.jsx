@@ -8,7 +8,7 @@ export default function Checkout() {
   const [discount, setDiscount] = useState(0);
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const { getCart, GetProvinces, GetOrigin, GetDestination, CheckOutItem } = useAuth();
+  const { getCart, GetProvinces, GetOrigin, GetDestination, CheckOutItem/* , Pay */ } = useAuth();
   const [provinces, setProvinces] = useState([]);
   const [discourtItem, setDiscourtItem] = useState(null);
   const [courier, setCourir] = useState("");
@@ -80,7 +80,7 @@ export default function Checkout() {
     data.forEach((item) => {
       total += item.Product.price * item.quantity;
     });
-    return total
+    return total;
   };
 
   const handlePromo = () => {
@@ -155,7 +155,7 @@ export default function Checkout() {
             <hr />
             <div className="cartItems-total-item">
               <h3>Total</h3>
-              <h3>IDR {formatRupiah((getTotalAmount() - getTotalAmount() * discount))}</h3>
+              <h3>IDR {formatRupiah(getTotalAmount() - getTotalAmount() * discount)}</h3>
             </div>
           </div>
           <button

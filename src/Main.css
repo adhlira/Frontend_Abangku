@@ -1253,6 +1253,20 @@ button.btn-action {
   background-color: #a62c27;
   margin-top: 15px;
 }
+button.btn-action-order {
+  width: 100px;
+  height: 40px;
+  font-size: .9rem;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid #a62c27;
+  background-color: #a62c27;
+  margin-top: 15px;
+  cursor: pointer;
+}
+button.btn-action-order:hover {
+  background-color: #ea1d1d;
+}
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -1343,3 +1357,26 @@ input:checked + .slider:before {
   color: #ffffff;
 }
 /* CloseDarkMode */
+
+/* PROFILE */
+.profile {
+  width: 200px;
+}
+.container-profile {
+  display: flex;
+  gap: 50px;
+}
+.table-profile tr {
+  text-align: left;
+}
+.profile-box {
+  margin-left: 50px;
+}
+.nav-link svg {
+  color: #171717;
+  position: absolute;
+  top: 20%;
+  left: 250px;
+}
+
+/* CLOSE PROFILE */
