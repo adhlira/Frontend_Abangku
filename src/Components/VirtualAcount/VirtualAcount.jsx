@@ -10,7 +10,7 @@ export default function VirtualAccount() {
   const [DatapayStatus, setPayStatus] = useState("");
   const [orderID, setOrderID] = useState("");
   const [url, setUrl] = useState("");
-  const { or, /* Pay  */} = useAuth();
+  const { or,} = useAuth();
 
   const order = Number(orderID);
   console.log(order);

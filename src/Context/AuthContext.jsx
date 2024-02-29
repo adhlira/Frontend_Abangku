@@ -186,12 +186,12 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("roleID");
     localStorage.removeItem("isDarkMode");
     localStorage.removeItem("item");
-    localStorage.removeItem("invoice");
-    localStorage.removeItem("total");
-    localStorage.removeItem("shipment");
-    localStorage.removeItem("payment");
-    localStorage.removeItem("orderID");
-    localStorage.removeItem("paymentUrl");
+    // localStorage.removeItem("invoice");
+    // localStorage.removeItem("total");
+    // localStorage.removeItem("shipment");
+    // localStorage.removeItem("payment");
+    // localStorage.removeItem("orderID");
+    // localStorage.removeItem("paymentUrl");
   };
   const Banner = (Banner) => {
     setBanner(Banner);
